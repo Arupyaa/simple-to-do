@@ -8,11 +8,11 @@ class Todos {
     #notes
     #checklist
     #isComplete
-    constructor(title, description, dueDate, notes = "", checklist = []) {
+    constructor(id,title, description, dueDate, notes = "", checklist = [],priority) {
         this.#title = title;
         this.#description = description;
         this.#dueDate = dueDate;
-        this.#priority = TodosHandler.addPriority(); //to implement
+        this.#priority = priority;
         if (notes != "")
             this.#notes = notes;
         if (checklist.length !=0)
