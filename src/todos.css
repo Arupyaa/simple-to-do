@@ -1,0 +1,19 @@
+
+.project-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,1fr);
+    background-color: #1f1f1f;
+    padding: 3rem;
+    gap: 1rem;
+}
+
+.todo-card{
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background-color: #F4C430;
+    font-size: 1.4rem;
+    & h3{
+        font-size: 2rem;
+    }
+}
