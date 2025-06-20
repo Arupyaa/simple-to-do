@@ -32,7 +32,7 @@ const Project = function () {
 
         }
     }
-    project.sortBydueDate = function(order) {
+    project.sortByDueDate = function(order) {
         switch(order){
             case "DESC":
                 internalList.sort((a,b)=>compareDesc(a.dueDate,b.dueDate));

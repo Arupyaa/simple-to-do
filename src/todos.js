@@ -9,7 +9,7 @@ class Todos {
     checklist
     isComplete
     #id
-    constructor(id,title, description, dueDate, notes = "", checklist = {},priority) {
+    constructor(id,title, description, dueDate, notes = "", checklist = [],priority) {
         this.#id = id;
         this.title = title;
         this.description = description;
@@ -17,7 +17,7 @@ class Todos {
         this.priority = priority;
         if (notes != "")
             this.notes = notes;
-        if (Object.keys(checklist).length !=0)
+        if (checklist.length !=0)
             this.checklist = checklist;
         this.isComplete = false;
     }
