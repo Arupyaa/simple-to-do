@@ -37,16 +37,16 @@ let TodosHandler = (function () {
     }
 
     //proper input validation is handled by the DOM module
-    let editTitle = makeAnEdit(title);
-    let editDescription = makeAnEdit(description);
-    let editDueDate = makeAnEdit(dueDate);
-    let editNotes = makeAnEdit(notes);
-    let editChecklist = makeAnEdit(checklist);
+    let editTitle = makeAnEdit("title");
+    let editDescription = makeAnEdit("description");
+    let editDueDate = makeAnEdit("dueDate");
+    let editNotes = makeAnEdit("notes");
+    let editChecklist = makeAnEdit("checklist");
 
     return { addTodo, removeTodo, increasePriority, decreasePriority, editTitle, editDescription, editDueDate, editNotes, editChecklist };
 })();
 
-let makeAnEdit = function (editField) {
+function makeAnEdit(editField) {
     let edit = function (project, id, value) {
         let index = project.list.findIndex((todo) => todo.id == id);
         if (index != -1) {
