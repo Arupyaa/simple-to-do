@@ -1,23 +1,23 @@
 export {Todos};
 
 class Todos {
-    #title
-    #description
-    #dueDate
-    #priority
-    #notes
-    #checklist
-    #isComplete
+    title
+    description
+    dueDate
+    priority
+    notes
+    checklist
+    isComplete
     constructor(id,title, description, dueDate, notes = "", checklist = [],priority) {
-        this.#title = title;
-        this.#description = description;
-        this.#dueDate = dueDate;
-        this.#priority = priority;
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority;
         if (notes != "")
-            this.#notes = notes;
+            this.notes = notes;
         if (checklist.length !=0)
-            this.#checklist = checklist;
-        this.#isComplete = false;
+            this.checklist = checklist;
+        this.isComplete = false;
     }
 
 }
