@@ -1,6 +1,7 @@
 import './style.css'
 import { Project } from "./projects.js";
 import { TodosHandler } from './todosHandler';
+import { TodosInterface } from './interface.js';
 
 let project = new Project();
 TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
