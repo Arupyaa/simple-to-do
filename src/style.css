@@ -1,6 +1,7 @@
 *{
     padding:0;
     margin: 0;
+    box-sizing: border-box;
 }
 body{
     height: 100vh;
@@ -29,6 +30,7 @@ body{
     background-color: aquamarine;
     scrollbar-color: grey aquamarine;
     overflow-y: auto;
+    padding: 1.5rem;
 }
 
 .footer{
