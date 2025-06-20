@@ -8,7 +8,9 @@ class Todos {
     notes
     checklist
     isComplete
+    #id
     constructor(id,title, description, dueDate, notes = "", checklist = {},priority) {
+        this.#id = id;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -19,5 +21,7 @@ class Todos {
             this.checklist = checklist;
         this.isComplete = false;
     }
-
+    get id(){
+        return this.#id;
+    }
 }
