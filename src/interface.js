@@ -1,5 +1,5 @@
 import { format as dateFormat } from "date-fns";
-export {TodosInterface};
+export { TodosInterface };
 
 let TodosInterface = (function () {
     let displayTodos = function (container, project) {
@@ -18,15 +18,20 @@ let TodosInterface = (function () {
             let notes = document.createElement("p");
             notes.textContent = todo.notes;
             let checklist = document.createElement("ul");
-            todo.checklist.forEach(element => {
-                let task = document.createElement("li");
-                task.textContent = element.name;
-                let checkbox = document.createElement("input");
-                checkbox.setAttribute("type", "checkbox");
-                if (element.state)
-                    checkbox.setAttribute("checked", "");
-                checklist.appendChild(task);
-            })
+            if (todo.checklist != undefined) {
+                todo.checklist.forEach(element => {
+                    let list = document.createElement("li");
+                    let task = document.createElement("div");
+                    task.textContent = element.name;
+                    let checkbox = document.createElement("input");
+                    checkbox.setAttribute("type", "checkbox");
+                    if (element.state)
+                        checkbox.setAttribute("checked", "");
+                    task.appendChild(checkbox);
+                    list.appendChild(task);
+                    checklist.appendChild(list);
+                })
+            }
 
             card.appendChild(header);
             card.appendChild(title);
@@ -40,5 +45,5 @@ let TodosInterface = (function () {
 
     };
 
-    return {displayTodos};
+    return { displayTodos };
 })();
