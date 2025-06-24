@@ -16,12 +16,24 @@ let TodosInterface = (function () {
             let cardBody = document.createElement("div");
             let title = document.createElement("h3");
             title.textContent = todo.title;
+            let titleEdit = makeSVG();
+            titleEdit.appendChild(makePath1());
+            titleEdit.appendChild(makePath2());
             let description = document.createElement("p");
             description.textContent = todo.description;
+            let descriptionEdit = makeSVG();
+            descriptionEdit.appendChild(makePath1());
+            descriptionEdit.appendChild(makePath2());
             let dueDate = document.createElement("div");
             dueDate.textContent = dateFormat(todo.dueDate, "do MMM yyyy, h:m aa");
+            let dueDateEdit = makeSVG();
+            dueDateEdit.appendChild(makePath1());
+            dueDateEdit.appendChild(makePath2());
             let notes = document.createElement("p");
             notes.textContent = todo.notes;
+            let notesEdit = makeSVG();
+            notesEdit.appendChild(makePath1());
+            notesEdit.appendChild(makePath2());
             let checklist = document.createElement("ul");
             if (todo.checklist != undefined) {
                 todo.checklist.forEach(element => {
@@ -37,13 +49,21 @@ let TodosInterface = (function () {
                     checklist.appendChild(list);
                 })
             }
+            let checklistEdit = makeSVG();
+            checklistEdit.appendChild(makePath1());
+            checklistEdit.appendChild(makePath2());
 
             card.appendChild(header);
             cardBody.appendChild(title);
+            cardBody.appendChild(titleEdit);
             cardBody.appendChild(description);
+            cardBody.appendChild(descriptionEdit);
             cardBody.appendChild(dueDate);
+            cardBody.appendChild(dueDateEdit);
             cardBody.appendChild(notes);
+            cardBody.appendChild(notesEdit);
             cardBody.appendChild(checklist);
+            cardBody.appendChild(checklistEdit);
             card.appendChild(cardBody);
             container.appendChild(card);
 
@@ -54,13 +74,13 @@ let TodosInterface = (function () {
     return { displayTodos };
 })();
 
-function createSVG(name, SVGclass, ...attributes) {
-    let customFunction = function (name, SVGclass, ...attributes) {
-        let SVG = document.createElementNS("http://www.w3.org/2000/svg", name);
-        if (SVGclass != "")
-            SVG.classList.add(SVGclass);
-        for (let k in attributes) {
-            SVG.setAttribute(k, attributes[k]);
+function createSVG(_name, _SVGclass, _attributes) {
+    let customFunction = function () {
+        let SVG = document.createElementNS("http://www.w3.org/2000/svg", _name);
+        if (_SVGclass != "")
+            SVG.classList.add(_SVGclass);
+        for (let k in _attributes) {
+            SVG.setAttribute(k, _attributes[k]);
         }
         return SVG;
     }
