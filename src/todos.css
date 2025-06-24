@@ -1,6 +1,6 @@
 .project-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15rem,1fr));
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
     background-color: #1f1f1f;
     padding: 3rem;
     gap: 2rem;
@@ -9,36 +9,45 @@
 .todo-card {
     display: flex;
     flex-direction: column;
-    padding: 0 1.5rem 1.5rem 1.5rem;
+
     aspect-ratio: 1/1;
     background-color: #F4C430;
     border: 5px solid #FBCCE7;
     border-radius: 1rem;
     font-size: 1.4rem;
 
-    & h3 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-    }
+
 
     &>div:first-of-type {
         background-color: #D6AC2A;
-        margin: 0 -1.5rem 0 -1.5rem;
-        border-radius: 1rem 1rem 0 0;
+        /* margin: 0 -1.5rem 0 -1.5rem;
+        border-radius: 1rem 1rem 0 0; */
         padding: 0.2rem 0 0.2rem 0.5rem;
         font-weight: bold;
     }
 
-    & li {
-        margin-left: 1.5rem;
+    &>div:nth-of-type(2) {
+        padding: 0 1.5rem 1.5rem 1.5rem;
 
-        &>div {
-            display: flex;
+        & h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
 
-            & input[type="checkbox"] {
-                margin-left: auto;
-                transform: scale(1.4);
+        & li {
+            margin-left: 1.5rem;
+
+            &>div {
+                display: flex;
+
+                & input[type="checkbox"] {
+                    margin-left: auto;
+                    transform: scale(1.4);
+                }
             }
         }
+        
     }
+
+
 }
