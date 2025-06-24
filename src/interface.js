@@ -19,51 +19,85 @@ let TodosInterface = (function () {
             let titleEdit = makeSVG();
             titleEdit.appendChild(makePath1());
             titleEdit.appendChild(makePath2());
+            let titleBox = document.createElement("div");
+            titleBox.classList.add("title-box");
+            titleBox.appendChild(title);
+            titleBox.appendChild(titleEdit);
+
+            let dueDate = document.createElement("div");
+            dueDate.textContent = dateFormat(todo.dueDate, "MMM d h:m aa");
+            dueDate.classList.add("date");
+            let dueDateEdit = makeSVG();
+            dueDateEdit.appendChild(makePath1());
+            dueDateEdit.appendChild(makePath2());
+            let dueDateBox = document.createElement("div");
+            dueDateBox.classList.add("dueDate-box");
+            dueDateBox.appendChild(dueDate);
+            dueDateBox.appendChild(dueDateEdit);
+
             let description = document.createElement("p");
             description.textContent = todo.description;
             let descriptionEdit = makeSVG();
             descriptionEdit.appendChild(makePath1());
             descriptionEdit.appendChild(makePath2());
-            let dueDate = document.createElement("div");
-            dueDate.textContent = dateFormat(todo.dueDate, "do MMM yyyy, h:m aa");
-            let dueDateEdit = makeSVG();
-            dueDateEdit.appendChild(makePath1());
-            dueDateEdit.appendChild(makePath2());
+            let descriptionTitle = document.createElement("h4");
+            descriptionTitle.textContent = "Description:";
+            let descriptionBox = document.createElement("div");
+            descriptionBox.classList.add("description-box");
+            descriptionBox.appendChild(descriptionTitle);
+            descriptionBox.appendChild(descriptionEdit);
+            descriptionBox.appendChild(description);
+
             let notes = document.createElement("p");
             notes.textContent = todo.notes;
             let notesEdit = makeSVG();
             notesEdit.appendChild(makePath1());
             notesEdit.appendChild(makePath2());
+            let notesTitle = document.createElement("h4");
+            notesTitle.textContent = "Notes:";
+            let notesBox = document.createElement("div");
+            notesBox.classList.add("notes-box");
+            notesBox.appendChild(notesTitle);
+            notesBox.appendChild(notesEdit);
+            notesBox.appendChild(notes);
+
             let checklist = document.createElement("ul");
             if (todo.checklist != undefined) {
                 todo.checklist.forEach(element => {
                     let list = document.createElement("li");
-                    let task = document.createElement("div");
-                    task.textContent = element.name;
+                    let listText = document.createElement("span");
                     let checkbox = document.createElement("input");
-                    checkbox.setAttribute("type", "checkbox");
-                    if (element.state)
-                        checkbox.setAttribute("checked", "");
-                    task.appendChild(checkbox);
-                    list.appendChild(task);
+                    checkbox.setAttribute("type","checkbox");
+                    checkbox.classList.add("checkbox");
+                    if(element.state){
+                        checkbox.setAttribute("checked","");
+                    }
+                    listText.textContent = element.name;
+                    list.appendChild(checkbox);
+                    list.appendChild(listText);
                     checklist.appendChild(list);
                 })
             }
             let checklistEdit = makeSVG();
             checklistEdit.appendChild(makePath1());
             checklistEdit.appendChild(makePath2());
+            let checklistTitle = document.createElement("h4");
+            checklistTitle.textContent = "Checklist:";
+            let checklistBox = document.createElement("div");
+            checklistBox.classList.add("checklist-box");
+            checklistBox.appendChild(checklistTitle);
+            checklistBox.appendChild(checklistEdit);
+            checklistBox.appendChild(checklist);
 
             card.appendChild(header);
-            cardBody.appendChild(title);
-            cardBody.appendChild(titleEdit);
-            cardBody.appendChild(description);
-            cardBody.appendChild(descriptionEdit);
-            cardBody.appendChild(dueDate);
-            cardBody.appendChild(dueDateEdit);
-            cardBody.appendChild(notes);
-            cardBody.appendChild(notesEdit);
-            cardBody.appendChild(checklist);
-            cardBody.appendChild(checklistEdit);
+            cardBody.appendChild(titleBox);
+            cardBody.appendChild(dueDateBox);
+            if(todo.description != undefined)
+                cardBody.appendChild(descriptionBox);
+            if(todo.notes !=undefined)
+                cardBody.appendChild(notesBox);
+            if(todo.checklist != undefined)
+                cardBody.appendChild(checklistBox);
             card.appendChild(cardBody);
             container.appendChild(card);
 
@@ -84,6 +118,6 @@ function createSVG(_name, _SVGclass, _attributes) {
         }
         return SVG;
     }
-        return customFunction;
+    return customFunction;
 
 }
