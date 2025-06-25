@@ -1,5 +1,6 @@
 import { TodosHandler } from "./todosHandler";
 import { TodosInterface } from "./interface.js";
+import { parse as parseDate } from "date-fns";
 export { modal };
 
 let modal = (function () {
@@ -24,6 +25,11 @@ let modal = (function () {
                 case "notes":
                     TodosHandler.editNotes(_project, _id, modal.returnValue);
                     TodosInterface.editNotes(_id, modal.returnValue);
+                    break;
+                case "dueDate":
+                    let dueDateValue = parseDate(modal.returnValue, "yyyy-MM-dd'T'HH:mm", new Date());
+                    TodosHandler.editDueDate(_project, _id, dueDateValue);
+                    TodosInterface.editDueDate(_id, dueDateValue);
                     break;
             }
         }
@@ -130,5 +136,36 @@ let modal = (function () {
         modal.showModal();
     }
 
-    return { editTitle, editDescription, editNotes };
+    let editDueDate = function (project, id) {
+        _project = project;
+        _id = id;
+        let dueDate = document.createElement("input");
+        dueDate.setAttribute("type", "datetime-local");
+        dueDate.setAttribute("id", "dueDate-edit");
+        let dueDateLabel = document.createElement("label");
+        dueDateLabel.setAttribute("for", "dueDate-edit");
+        dueDateLabel.textContent = "New dueDate:";
+        let cancelButton = document.createElement("button");
+        cancelButton.textContent = "cancel";
+        cancelButton.addEventListener("click", () => {
+            modal.close();
+            clearModal();
+        });
+        let submitButton = document.createElement("button");
+        submitButton.textContent = "enter";
+        submitButton.addEventListener("click", () => {
+            modal.close(dueDate.value);
+            clearModal();
+        });
+
+        modal.appendChild(dueDateLabel);
+        modal.appendChild(dueDate);
+        modal.appendChild(cancelButton);
+        modal.appendChild(submitButton);
+
+        modal.dataset.state = "dueDate";
+        modal.showModal();
+    }
+
+    return { editTitle, editDescription, editNotes, editDueDate };
 })();

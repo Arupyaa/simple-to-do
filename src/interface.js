@@ -30,11 +30,14 @@ let TodosInterface = (function () {
             titleBox.appendChild(titleEdit);
 
             let dueDate = document.createElement("div");
-            dueDate.textContent = dateFormat(todo.dueDate, "MMM d h:m aa");
+            dueDate.textContent = dateFormat(todo.dueDate, "MMM d h:mm aa");
             dueDate.classList.add("date");
             let dueDateEdit = makeSVG();
             dueDateEdit.appendChild(makePath1());
             dueDateEdit.appendChild(makePath2());
+            dueDateEdit.addEventListener("click", function () {
+                modal.editDueDate(project, this.parentNode.parentNode.parentNode.dataset.id);
+            });
             let dueDateBox = document.createElement("div");
             dueDateBox.classList.add("dueDate-box");
             dueDateBox.appendChild(dueDate);
@@ -63,7 +66,7 @@ let TodosInterface = (function () {
             let notesEdit = makeSVG();
             notesEdit.appendChild(makePath1());
             notesEdit.appendChild(makePath2());
-            notesEdit.addEventListener("click",function(){
+            notesEdit.addEventListener("click", function () {
                 modal.editNotes(project, this.parentNode.parentNode.parentNode.dataset.id);
             });
             let notesTitle = document.createElement("h4");
@@ -137,7 +140,13 @@ let TodosInterface = (function () {
         notes.textContent = value;
     }
 
-    return { displayTodos, editTitle, editDescription, editNotes };
+    let editDueDate = function (id, value) {
+        let card = document.querySelector(`[data-id = '${id}']`);
+        let dueDate = card.querySelector(".date");
+        dueDate.textContent = dateFormat(value, "MMM d h:mm aa");
+    }
+
+    return { displayTodos, editTitle, editDescription, editNotes, editDueDate };
 })();
 
 function createSVG(_name, _SVGclass, _attributes) {
