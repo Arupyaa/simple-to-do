@@ -21,6 +21,10 @@ let modal = (function () {
                     TodosHandler.editDescription(_project, _id, modal.returnValue);
                     TodosInterface.editDescription(_id, modal.returnValue);
                     break;
+                case "notes":
+                    TodosHandler.editNotes(_project, _id, modal.returnValue);
+                    TodosInterface.editNotes(_id, modal.returnValue);
+                    break;
             }
         }
     });
@@ -66,8 +70,8 @@ let modal = (function () {
         _project = project;
         _id = id;
         let description = document.createElement("textarea");
-        description.setAttribute("rows","5");
-        description.setAttribute("cols","33");
+        description.setAttribute("rows", "5");
+        description.setAttribute("cols", "33");
         description.setAttribute("id", "description-edit");
         let descriptionLabel = document.createElement("label");
         descriptionLabel.setAttribute("for", "description-edit");
@@ -94,5 +98,37 @@ let modal = (function () {
         modal.showModal();
     }
 
-    return { editTitle, editDescription };
+    let editNotes = function (project, id) {
+        _project = project;
+        _id = id;
+        let notes = document.createElement("textarea");
+        notes.setAttribute("rows", "5");
+        notes.setAttribute("cols", "33");
+        notes.setAttribute("id", "notes-edit");
+        let notesLabel = document.createElement("label");
+        notesLabel.setAttribute("for", "notes-edit");
+        notesLabel.textContent = "New notes:";
+        let cancelButton = document.createElement("button");
+        cancelButton.textContent = "cancel";
+        cancelButton.addEventListener("click", () => {
+            modal.close();
+            clearModal();
+        });
+        let submitButton = document.createElement("button");
+        submitButton.textContent = "enter";
+        submitButton.addEventListener("click", () => {
+            modal.close(notes.value);
+            clearModal();
+        });
+
+        modal.appendChild(notesLabel);
+        modal.appendChild(notes);
+        modal.appendChild(cancelButton);
+        modal.appendChild(submitButton);
+
+        modal.dataset.state = "notes";
+        modal.showModal();
+    }
+
+    return { editTitle, editDescription, editNotes };
 })();

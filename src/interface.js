@@ -46,7 +46,7 @@ let TodosInterface = (function () {
             let descriptionEdit = makeSVG();
             descriptionEdit.appendChild(makePath1());
             descriptionEdit.appendChild(makePath2());
-            descriptionEdit.addEventListener("click", function(){
+            descriptionEdit.addEventListener("click", function () {
                 modal.editDescription(project, this.parentNode.parentNode.parentNode.dataset.id);
             });
             let descriptionTitle = document.createElement("h4");
@@ -58,10 +58,14 @@ let TodosInterface = (function () {
             descriptionBox.appendChild(description);
 
             let notes = document.createElement("p");
+            notes.classList.add("notes");
             notes.textContent = todo.notes;
             let notesEdit = makeSVG();
             notesEdit.appendChild(makePath1());
             notesEdit.appendChild(makePath2());
+            notesEdit.addEventListener("click",function(){
+                modal.editNotes(project, this.parentNode.parentNode.parentNode.dataset.id);
+            });
             let notesTitle = document.createElement("h4");
             notesTitle.textContent = "Notes:";
             let notesBox = document.createElement("div");
@@ -127,7 +131,13 @@ let TodosInterface = (function () {
         description.textContent = value;
     }
 
-    return { displayTodos, editTitle, editDescription };
+    let editNotes = function (id, value) {
+        let card = document.querySelector(`[data-id = '${id}']`);
+        let notes = card.querySelector(".notes");
+        notes.textContent = value;
+    }
+
+    return { displayTodos, editTitle, editDescription, editNotes };
 })();
 
 function createSVG(_name, _SVGclass, _attributes) {
