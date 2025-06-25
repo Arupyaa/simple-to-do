@@ -23,7 +23,7 @@ let TodosInterface = (function () {
             titleEdit.appendChild(makePath2());
             titleEdit.addEventListener("click", function () {
                 modal.editTitle(project, this.parentNode.parentNode.parentNode.dataset.id);
-            })
+            });
             let titleBox = document.createElement("div");
             titleBox.classList.add("title-box");
             titleBox.appendChild(title);
@@ -41,10 +41,14 @@ let TodosInterface = (function () {
             dueDateBox.appendChild(dueDateEdit);
 
             let description = document.createElement("p");
+            description.classList.add("description");
             description.textContent = todo.description;
             let descriptionEdit = makeSVG();
             descriptionEdit.appendChild(makePath1());
             descriptionEdit.appendChild(makePath2());
+            descriptionEdit.addEventListener("click", function(){
+                modal.editDescription(project, this.parentNode.parentNode.parentNode.dataset.id);
+            });
             let descriptionTitle = document.createElement("h4");
             descriptionTitle.textContent = "Description:";
             let descriptionBox = document.createElement("div");
@@ -117,7 +121,13 @@ let TodosInterface = (function () {
         title.textContent = value;
     }
 
-    return { displayTodos, editTitle };
+    let editDescription = function (id, value) {
+        let card = document.querySelector(`[data-id = '${id}']`);
+        let description = card.querySelector(".description");
+        description.textContent = value;
+    }
+
+    return { displayTodos, editTitle, editDescription };
 })();
 
 function createSVG(_name, _SVGclass, _attributes) {

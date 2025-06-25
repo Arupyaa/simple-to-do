@@ -10,12 +10,20 @@ let modal = (function () {
     modal.addEventListener("close", () => {
         //making sure modal is cleared if closed by pressing ESC
         clearModal();
-        
-        if (modal.returnValue != "" && modal.dataset.state == "title") {
-            TodosHandler.editTitle(_project, _id, modal.returnValue);
-            TodosInterface.editTitle(_id, modal.returnValue);
+
+        if (modal.returnValue != "") {
+            switch (modal.dataset.state) {
+                case "title":
+                    TodosHandler.editTitle(_project, _id, modal.returnValue);
+                    TodosInterface.editTitle(_id, modal.returnValue);
+                    break;
+                case "description":
+                    TodosHandler.editDescription(_project, _id, modal.returnValue);
+                    TodosInterface.editDescription(_id, modal.returnValue);
+                    break;
+            }
         }
-    })
+    });
 
     function clearModal() {
         while (modal.firstChild) {
@@ -54,5 +62,37 @@ let modal = (function () {
         modal.showModal();
     }
 
-    return { editTitle };
+    let editDescription = function (project, id) {
+        _project = project;
+        _id = id;
+        let description = document.createElement("textarea");
+        description.setAttribute("rows","5");
+        description.setAttribute("cols","33");
+        description.setAttribute("id", "description-edit");
+        let descriptionLabel = document.createElement("label");
+        descriptionLabel.setAttribute("for", "description-edit");
+        descriptionLabel.textContent = "New description:";
+        let cancelButton = document.createElement("button");
+        cancelButton.textContent = "cancel";
+        cancelButton.addEventListener("click", () => {
+            modal.close();
+            clearModal();
+        });
+        let submitButton = document.createElement("button");
+        submitButton.textContent = "enter";
+        submitButton.addEventListener("click", () => {
+            modal.close(description.value);
+            clearModal();
+        });
+
+        modal.appendChild(descriptionLabel);
+        modal.appendChild(description);
+        modal.appendChild(cancelButton);
+        modal.appendChild(submitButton);
+
+        modal.dataset.state = "description";
+        modal.showModal();
+    }
+
+    return { editTitle, editDescription };
 })();

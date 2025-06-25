@@ -81,3 +81,7 @@
 .notes-box>p::first-letter {
     padding-left: 1rem;
 }
+
+.description, .notes{
+    white-space: pre;
+}
