@@ -16,12 +16,14 @@ let TodosInterface = (function () {
             header.textContent = todo.priority;
             let cardBody = document.createElement("div");
             let title = document.createElement("h3");
+            title.classList.add("title");
             title.textContent = todo.title;
             let titleEdit = makeSVG();
             titleEdit.appendChild(makePath1());
             titleEdit.appendChild(makePath2());
-            titleEdit.addEventListener("click",function(){
-                modal.editTitle(project,this.parentNode.parentNode.parentNode.dataset.id);})
+            titleEdit.addEventListener("click", function () {
+                modal.editTitle(project, this.parentNode.parentNode.parentNode.dataset.id);
+            })
             let titleBox = document.createElement("div");
             titleBox.classList.add("title-box");
             titleBox.appendChild(title);
@@ -70,10 +72,10 @@ let TodosInterface = (function () {
                     let list = document.createElement("li");
                     let listText = document.createElement("span");
                     let checkbox = document.createElement("input");
-                    checkbox.setAttribute("type","checkbox");
+                    checkbox.setAttribute("type", "checkbox");
                     checkbox.classList.add("checkbox");
-                    if(element.state){
-                        checkbox.setAttribute("checked","");
+                    if (element.state) {
+                        checkbox.setAttribute("checked", "");
                     }
                     listText.textContent = element.name;
                     list.appendChild(checkbox);
@@ -95,11 +97,11 @@ let TodosInterface = (function () {
             card.appendChild(header);
             cardBody.appendChild(titleBox);
             cardBody.appendChild(dueDateBox);
-            if(todo.description != undefined)
+            if (todo.description != undefined)
                 cardBody.appendChild(descriptionBox);
-            if(todo.notes !=undefined)
+            if (todo.notes != undefined)
                 cardBody.appendChild(notesBox);
-            if(todo.checklist != undefined)
+            if (todo.checklist != undefined)
                 cardBody.appendChild(checklistBox);
             card.appendChild(cardBody);
             card.dataset.id = todo.id;
@@ -109,7 +111,13 @@ let TodosInterface = (function () {
 
     };
 
-    return { displayTodos };
+    let editTitle = function (id, value) {
+        let card = document.querySelector(`[data-id = '${id}']`);
+        let title = card.querySelector(".title");
+        title.textContent = value;
+    }
+
+    return { displayTodos, editTitle };
 })();
 
 function createSVG(_name, _SVGclass, _attributes) {

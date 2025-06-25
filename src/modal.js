@@ -1,10 +1,21 @@
 import { TodosHandler } from "./todosHandler";
+import { TodosInterface } from "./interface.js";
 export { modal };
 
 let modal = (function () {
+    let _project = [], _id = "";
     let modal = document.createElement("dialog");
     modal.classList.add("modal");
     document.body.appendChild(modal);
+    modal.addEventListener("close", () => {
+        //making sure modal is cleared if closed by pressing ESC
+        clearModal();
+        
+        if (modal.returnValue != "" && modal.dataset.state == "title") {
+            TodosHandler.editTitle(_project, _id, modal.returnValue);
+            TodosInterface.editTitle(_id, modal.returnValue);
+        }
+    })
 
     function clearModal() {
         while (modal.firstChild) {
@@ -12,7 +23,9 @@ let modal = (function () {
         }
     }
 
-    let editTitle = function (project,id) {
+    let editTitle = function (project, id) {
+        _project = project;
+        _id = id;
         let Title = document.createElement("input");
         Title.setAttribute("type", "text");
         Title.setAttribute("id", "title-edit");
@@ -37,13 +50,9 @@ let modal = (function () {
         modal.appendChild(cancelButton);
         modal.appendChild(submitButton);
 
-        modal.addEventListener("close", () => {
-            if (modal.returnValue != "")
-                TodosHandler.editTitle(project,id,modal.returnValue);
-        })
-        
+        modal.dataset.state = "title";
         modal.showModal();
     }
 
-    return {editTitle};
+    return { editTitle };
 })();
