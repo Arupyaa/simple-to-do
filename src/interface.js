@@ -1,4 +1,5 @@
 import { format as dateFormat } from "date-fns";
+import { modal } from "./modal";
 export { TodosInterface };
 
 let TodosInterface = (function () {
@@ -19,6 +20,8 @@ let TodosInterface = (function () {
             let titleEdit = makeSVG();
             titleEdit.appendChild(makePath1());
             titleEdit.appendChild(makePath2());
+            titleEdit.addEventListener("click",function(){
+                modal.editTitle(project,this.parentNode.parentNode.parentNode.dataset.id);})
             let titleBox = document.createElement("div");
             titleBox.classList.add("title-box");
             titleBox.appendChild(title);
@@ -99,6 +102,7 @@ let TodosInterface = (function () {
             if(todo.checklist != undefined)
                 cardBody.appendChild(checklistBox);
             card.appendChild(cardBody);
+            card.dataset.id = todo.id;
             container.appendChild(card);
 
         });

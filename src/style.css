@@ -1,31 +1,32 @@
-*{
-    padding:0;
+* {
+    padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     height: 100vh;
     display: grid;
     grid-template-columns: 10rem auto;
     grid-template-rows: 5rem auto 3rem;
     grid-template-areas: "header header"
-                         "sidebar container"
-                         "footer footer";
+        "sidebar container"
+        "footer footer";
 }
 
-.header{
+.header {
     grid-area: header;
     background-color: gray;
 }
 
-.sidebar{
+.sidebar {
     grid-area: sidebar;
     background-color: aqua;
     scrollbar-color: grey aqua;
     overflow-y: auto;
 }
 
-.container{
+.container {
     grid-area: container;
     background-color: aquamarine;
     scrollbar-color: grey aquamarine;
@@ -33,7 +34,17 @@ body{
     padding: 1.5rem;
 }
 
-.footer{
+.footer {
     grid-area: footer;
     background-color: bisque;
+}
+
+.modal {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    padding: 2rem;
 }
