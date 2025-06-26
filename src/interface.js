@@ -23,13 +23,13 @@ let TodosInterface = (function () {
         projectButtonContainer.classList.add("project-btn-container");
         let mainContainer = document.querySelector(".container");
 
-        let addCardSVG = createSVG("svg", "add-card-icon", {viewBox: "0 0 24 24" });
-        let addline1 = createSVG("line", "edit-line", {stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "12", x2: "12", y1: "19", y2: "5" });
-        let addline2 = createSVG("line", "edit-line", {stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "5", x2: "19", y1: "12", y2: "12" });
+        let addCardSVG = createSVG("svg", "add-card-icon", { viewBox: "0 0 24 24" });
+        let addline1 = createSVG("line", "edit-line", { stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "12", x2: "12", y1: "19", y2: "5" });
+        let addline2 = createSVG("line", "edit-line", { stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "5", x2: "19", y1: "12", y2: "12" });
         let addCardIcon = addCardSVG();
         addCardIcon.appendChild(addline1());
         addCardIcon.appendChild(addline2());
-        addCardIcon.addEventListener("click",function(){
+        addCardIcon.addEventListener("click", function () {
             modal.addTodo(project);
         });
         projectButtonContainer.appendChild(addCardIcon);
@@ -40,202 +40,7 @@ let TodosInterface = (function () {
 
     let displayTodos = function (container, project) {
         project.list.forEach(todo => {
-
-            let card = document.createElement("div");
-            card.classList.add("todo-card");
-            let header = document.createElement("div");
-            header.textContent = todo.priority;
-            let cardBody = document.createElement("div");
-            let title = document.createElement("h3");
-            title.classList.add("title");
-            title.textContent = todo.title;
-            let titleEdit = makeEditSVG();
-            titleEdit.appendChild(makePath1());
-            titleEdit.appendChild(makePath2());
-            titleEdit.addEventListener("click", function () {
-                modal.editTitle(project, this.parentNode.parentNode.parentNode.dataset.id);
-            });
-            let titleBox = document.createElement("div");
-            titleBox.classList.add("title-box");
-            titleBox.appendChild(title);
-            titleBox.appendChild(titleEdit);
-
-            let dueDate = document.createElement("div");
-            dueDate.textContent = dateFormat(todo.dueDate, "MMM d h:mm aa");
-            dueDate.classList.add("date");
-            let dueDateEdit = makeEditSVG();
-            dueDateEdit.appendChild(makePath1());
-            dueDateEdit.appendChild(makePath2());
-            dueDateEdit.addEventListener("click", function () {
-                modal.editDueDate(project, this.parentNode.parentNode.parentNode.dataset.id);
-            });
-            let dueDateBox = document.createElement("div");
-            dueDateBox.classList.add("dueDate-box");
-            dueDateBox.appendChild(dueDate);
-            dueDateBox.appendChild(dueDateEdit);
-
-            let description = document.createElement("p");
-            description.classList.add("description");
-            description.textContent = todo.description;
-            let descriptionEdit = makeEditSVG();
-            descriptionEdit.appendChild(makePath1());
-            descriptionEdit.appendChild(makePath2());
-            descriptionEdit.addEventListener("click", function () {
-                modal.editDescription(project, this.parentNode.parentNode.parentNode.dataset.id);
-            });
-            let descriptionDelete = makeDeleteSVG();
-            descriptionDelete.appendChild(makePath3());
-            descriptionDelete.addEventListener("click", function () {
-                let box = this.parentNode;
-                box.setAttribute("style", "display:none");
-                let card = this.parentNode.parentNode.parentNode;
-                let btn = card.querySelector("button[data-type='description']");
-                btn.setAttribute("style", "display:inline-block");
-                TodosHandler.removeDescription(project, card.dataset.id);
-            });
-            let descriptionTitle = document.createElement("h4");
-            descriptionTitle.textContent = "Description:";
-            let descriptionBox = document.createElement("div");
-            descriptionBox.classList.add("description-box");
-            descriptionBox.appendChild(descriptionTitle);
-            descriptionBox.appendChild(descriptionDelete);
-            descriptionBox.appendChild(descriptionEdit);
-            descriptionBox.appendChild(description);
-
-            let notes = document.createElement("p");
-            notes.classList.add("notes");
-            notes.textContent = todo.notes;
-            let notesEdit = makeEditSVG();
-            notesEdit.appendChild(makePath1());
-            notesEdit.appendChild(makePath2());
-            notesEdit.addEventListener("click", function () {
-                modal.editNotes(project, this.parentNode.parentNode.parentNode.dataset.id);
-            });
-            let notesDelete = makeDeleteSVG();
-            notesDelete.appendChild(makePath3());
-            notesDelete.addEventListener("click", function () {
-                let box = this.parentNode;
-                box.setAttribute("style", "display:none");
-                let card = this.parentNode.parentNode.parentNode;
-                let btn = card.querySelector("button[data-type='notes']");
-                btn.setAttribute("style", "display:inline-block");
-                TodosHandler.removeNotes(project, card.dataset.id);
-            });
-            let notesTitle = document.createElement("h4");
-            notesTitle.textContent = "Notes:";
-            let notesBox = document.createElement("div");
-            notesBox.classList.add("notes-box");
-            notesBox.appendChild(notesTitle);
-            notesBox.appendChild(notesDelete);
-            notesBox.appendChild(notesEdit);
-            notesBox.appendChild(notes);
-
-            let checklist = document.createElement("ul");
-            if (todo.checklist != undefined) {
-                todo.checklist.forEach(element => {
-                    let list = document.createElement("li");
-                    let listText = document.createElement("span");
-                    let checkbox = document.createElement("input");
-                    checkbox.setAttribute("type", "checkbox");
-                    checkbox.classList.add("checkbox");
-                    if (element.state) {
-                        checkbox.setAttribute("checked", "");
-                    }
-                    listText.textContent = element.name;
-                    list.appendChild(checkbox);
-                    list.appendChild(listText);
-                    checklist.appendChild(list);
-                })
-            }
-            let checklistEdit = makeEditSVG();
-            checklistEdit.appendChild(makePath1());
-            checklistEdit.appendChild(makePath2());
-            checklistEdit.addEventListener("click", function () {
-                modal.editChecklist(project, this.parentNode.parentNode.parentNode.dataset.id);
-            });
-            let checklistDelete = makeDeleteSVG();
-            checklistDelete.appendChild(makePath3());
-            checklistDelete.addEventListener("click", function () {
-                let box = this.parentNode;
-                box.setAttribute("style", "display:none");
-                let card = this.parentNode.parentNode.parentNode;
-                let btn = card.querySelector("button[data-type='checklist']");
-                btn.setAttribute("style", "display:inline-block");
-                TodosHandler.removeChecklist(project, card.dataset.id);
-            });
-            let checklistTitle = document.createElement("h4");
-            checklistTitle.textContent = "Checklist:";
-            let checklistBox = document.createElement("div");
-            checklistBox.classList.add("checklist-box");
-            checklistBox.appendChild(checklistTitle);
-            checklistBox.appendChild(checklistDelete);
-            checklistBox.appendChild(checklistEdit);
-            checklistBox.appendChild(checklist);
-
-            let addButtons = document.createElement("div");
-            let addDescriptionBtn = document.createElement("button");
-            let addNotesBtn = document.createElement("button");
-            let addChecklistBtn = document.createElement("button");
-            addDescriptionBtn.classList.add("add-btn");
-            addDescriptionBtn.dataset.type = "description";
-            addDescriptionBtn.textContent = "add description";
-            addDescriptionBtn.addEventListener("click", function () {
-                let card = this.parentNode.parentNode.parentNode;
-                modal.editDescription(project, card.dataset.id);
-                let box = card.querySelector(".description-box");
-                box.setAttribute("style", "display:grid");
-                this.setAttribute("style", "display:none");
-
-            });
-            addNotesBtn.classList.add("add-btn");
-            addNotesBtn.dataset.type = "notes";
-            addNotesBtn.textContent = "add notes";
-            addNotesBtn.addEventListener("click", function () {
-                let card = this.parentNode.parentNode.parentNode;
-                modal.editNotes(project, card.dataset.id);
-                let box = card.querySelector(".notes-box");
-                box.setAttribute("style", "display:grid");
-                this.setAttribute("style", "display:none");
-            });
-            addChecklistBtn.classList.add("add-btn");
-            addChecklistBtn.dataset.type = "checklist";
-            addChecklistBtn.textContent = "add checklist";
-            addChecklistBtn.addEventListener("click", function () {
-                let card = this.parentNode.parentNode.parentNode;
-                modal.editChecklist(project, card.dataset.id);
-                let box = card.querySelector(".checklist-box");
-                box.setAttribute("style", "display:grid");
-                this.setAttribute("style", "display:none");
-            });
-            addButtons.appendChild(addDescriptionBtn);
-            addButtons.appendChild(addNotesBtn);
-            addButtons.appendChild(addChecklistBtn);
-
-            //hide a specific todo field if not defined by user
-            if (todo.description == undefined)
-                descriptionBox.setAttribute("style", "display:none");
-            else
-                addDescriptionBtn.setAttribute("style", "display:none");
-            if (todo.notes == undefined)
-                notesBox.setAttribute("style", "display:none");
-            else
-                addNotesBtn.setAttribute("style", "display:none");
-            if (todo.checklist == undefined)
-                checklistBox.setAttribute("style", "display:none");
-            else
-                addChecklistBtn.setAttribute("style", "display:none");
-
-            card.appendChild(header);
-            cardBody.appendChild(titleBox);
-            cardBody.appendChild(dueDateBox);
-            cardBody.appendChild(descriptionBox);
-            cardBody.appendChild(notesBox);
-            cardBody.appendChild(checklistBox);
-            cardBody.appendChild(addButtons);
-            card.appendChild(cardBody);
-            card.dataset.id = todo.id;
-            container.appendChild(card);
-
+            displayCard(container, todo);
         });
 
     };
@@ -297,6 +102,216 @@ let TodosInterface = (function () {
         }
     }
 
+    function createSVG(_name, _SVGclass, _attributes) {
+        let customFunction = function () {
+            let SVG = document.createElementNS("http://www.w3.org/2000/svg", _name);
+            if (_SVGclass != "")
+                SVG.classList.add(_SVGclass);
+            for (let k in _attributes) {
+                SVG.setAttribute(k, _attributes[k]);
+            }
+            return SVG;
+        }
+        return customFunction;
+    }
+
+    function displayCard(container, todo) {
+        let card = document.createElement("div");
+        card.classList.add("todo-card");
+        let header = document.createElement("div");
+        header.textContent = todo.priority;
+        let cardBody = document.createElement("div");
+        let title = document.createElement("h3");
+        title.classList.add("title");
+        title.textContent = todo.title;
+        let titleEdit = makeEditSVG();
+        titleEdit.appendChild(makePath1());
+        titleEdit.appendChild(makePath2());
+        titleEdit.addEventListener("click", function () {
+            modal.editTitle(project, this.parentNode.parentNode.parentNode.dataset.id);
+        });
+        let titleBox = document.createElement("div");
+        titleBox.classList.add("title-box");
+        titleBox.appendChild(title);
+        titleBox.appendChild(titleEdit);
+
+        let dueDate = document.createElement("div");
+        dueDate.textContent = dateFormat(todo.dueDate, "MMM d h:mm aa");
+        dueDate.classList.add("date");
+        let dueDateEdit = makeEditSVG();
+        dueDateEdit.appendChild(makePath1());
+        dueDateEdit.appendChild(makePath2());
+        dueDateEdit.addEventListener("click", function () {
+            modal.editDueDate(project, this.parentNode.parentNode.parentNode.dataset.id);
+        });
+        let dueDateBox = document.createElement("div");
+        dueDateBox.classList.add("dueDate-box");
+        dueDateBox.appendChild(dueDate);
+        dueDateBox.appendChild(dueDateEdit);
+
+        let description = document.createElement("p");
+        description.classList.add("description");
+        description.textContent = todo.description;
+        let descriptionEdit = makeEditSVG();
+        descriptionEdit.appendChild(makePath1());
+        descriptionEdit.appendChild(makePath2());
+        descriptionEdit.addEventListener("click", function () {
+            modal.editDescription(project, this.parentNode.parentNode.parentNode.dataset.id);
+        });
+        let descriptionDelete = makeDeleteSVG();
+        descriptionDelete.appendChild(makePath3());
+        descriptionDelete.addEventListener("click", function () {
+            let box = this.parentNode;
+            box.setAttribute("style", "display:none");
+            let card = this.parentNode.parentNode.parentNode;
+            let btn = card.querySelector("button[data-type='description']");
+            btn.setAttribute("style", "display:inline-block");
+            TodosHandler.removeDescription(project, card.dataset.id);
+        });
+        let descriptionTitle = document.createElement("h4");
+        descriptionTitle.textContent = "Description:";
+        let descriptionBox = document.createElement("div");
+        descriptionBox.classList.add("description-box");
+        descriptionBox.appendChild(descriptionTitle);
+        descriptionBox.appendChild(descriptionDelete);
+        descriptionBox.appendChild(descriptionEdit);
+        descriptionBox.appendChild(description);
+
+        let notes = document.createElement("p");
+        notes.classList.add("notes");
+        notes.textContent = todo.notes;
+        let notesEdit = makeEditSVG();
+        notesEdit.appendChild(makePath1());
+        notesEdit.appendChild(makePath2());
+        notesEdit.addEventListener("click", function () {
+            modal.editNotes(project, this.parentNode.parentNode.parentNode.dataset.id);
+        });
+        let notesDelete = makeDeleteSVG();
+        notesDelete.appendChild(makePath3());
+        notesDelete.addEventListener("click", function () {
+            let box = this.parentNode;
+            box.setAttribute("style", "display:none");
+            let card = this.parentNode.parentNode.parentNode;
+            let btn = card.querySelector("button[data-type='notes']");
+            btn.setAttribute("style", "display:inline-block");
+            TodosHandler.removeNotes(project, card.dataset.id);
+        });
+        let notesTitle = document.createElement("h4");
+        notesTitle.textContent = "Notes:";
+        let notesBox = document.createElement("div");
+        notesBox.classList.add("notes-box");
+        notesBox.appendChild(notesTitle);
+        notesBox.appendChild(notesDelete);
+        notesBox.appendChild(notesEdit);
+        notesBox.appendChild(notes);
+
+        let checklist = document.createElement("ul");
+        if (todo.checklist != undefined) {
+            todo.checklist.forEach(element => {
+                let list = document.createElement("li");
+                let listText = document.createElement("span");
+                let checkbox = document.createElement("input");
+                checkbox.setAttribute("type", "checkbox");
+                checkbox.classList.add("checkbox");
+                if (element.state) {
+                    checkbox.setAttribute("checked", "");
+                }
+                listText.textContent = element.name;
+                list.appendChild(checkbox);
+                list.appendChild(listText);
+                checklist.appendChild(list);
+            })
+        }
+        let checklistEdit = makeEditSVG();
+        checklistEdit.appendChild(makePath1());
+        checklistEdit.appendChild(makePath2());
+        checklistEdit.addEventListener("click", function () {
+            modal.editChecklist(project, this.parentNode.parentNode.parentNode.dataset.id);
+        });
+        let checklistDelete = makeDeleteSVG();
+        checklistDelete.appendChild(makePath3());
+        checklistDelete.addEventListener("click", function () {
+            let box = this.parentNode;
+            box.setAttribute("style", "display:none");
+            let card = this.parentNode.parentNode.parentNode;
+            let btn = card.querySelector("button[data-type='checklist']");
+            btn.setAttribute("style", "display:inline-block");
+            TodosHandler.removeChecklist(project, card.dataset.id);
+        });
+        let checklistTitle = document.createElement("h4");
+        checklistTitle.textContent = "Checklist:";
+        let checklistBox = document.createElement("div");
+        checklistBox.classList.add("checklist-box");
+        checklistBox.appendChild(checklistTitle);
+        checklistBox.appendChild(checklistDelete);
+        checklistBox.appendChild(checklistEdit);
+        checklistBox.appendChild(checklist);
+
+        let addButtons = document.createElement("div");
+        let addDescriptionBtn = document.createElement("button");
+        let addNotesBtn = document.createElement("button");
+        let addChecklistBtn = document.createElement("button");
+        addDescriptionBtn.classList.add("add-btn");
+        addDescriptionBtn.dataset.type = "description";
+        addDescriptionBtn.textContent = "add description";
+        addDescriptionBtn.addEventListener("click", function () {
+            let card = this.parentNode.parentNode.parentNode;
+            modal.editDescription(project, card.dataset.id);
+            let box = card.querySelector(".description-box");
+            box.setAttribute("style", "display:grid");
+            this.setAttribute("style", "display:none");
+
+        });
+        addNotesBtn.classList.add("add-btn");
+        addNotesBtn.dataset.type = "notes";
+        addNotesBtn.textContent = "add notes";
+        addNotesBtn.addEventListener("click", function () {
+            let card = this.parentNode.parentNode.parentNode;
+            modal.editNotes(project, card.dataset.id);
+            let box = card.querySelector(".notes-box");
+            box.setAttribute("style", "display:grid");
+            this.setAttribute("style", "display:none");
+        });
+        addChecklistBtn.classList.add("add-btn");
+        addChecklistBtn.dataset.type = "checklist";
+        addChecklistBtn.textContent = "add checklist";
+        addChecklistBtn.addEventListener("click", function () {
+            let card = this.parentNode.parentNode.parentNode;
+            modal.editChecklist(project, card.dataset.id);
+            let box = card.querySelector(".checklist-box");
+            box.setAttribute("style", "display:grid");
+            this.setAttribute("style", "display:none");
+        });
+        addButtons.appendChild(addDescriptionBtn);
+        addButtons.appendChild(addNotesBtn);
+        addButtons.appendChild(addChecklistBtn);
+
+        //hide a specific todo field if not defined by user
+        if (todo.description == undefined)
+            descriptionBox.setAttribute("style", "display:none");
+        else
+            addDescriptionBtn.setAttribute("style", "display:none");
+        if (todo.notes == undefined)
+            notesBox.setAttribute("style", "display:none");
+        else
+            addNotesBtn.setAttribute("style", "display:none");
+        if (todo.checklist == undefined)
+            checklistBox.setAttribute("style", "display:none");
+        else
+            addChecklistBtn.setAttribute("style", "display:none");
+
+        card.appendChild(header);
+        cardBody.appendChild(titleBox);
+        cardBody.appendChild(dueDateBox);
+        cardBody.appendChild(descriptionBox);
+        cardBody.appendChild(notesBox);
+        cardBody.appendChild(checklistBox);
+        cardBody.appendChild(addButtons);
+        card.appendChild(cardBody);
+        card.dataset.id = todo.id;
+        container.appendChild(card);
+    }
+
     return {
         get projectContainer() {
             return projectContainer;
@@ -304,16 +319,3 @@ let TodosInterface = (function () {
     };
 })();
 
-function createSVG(_name, _SVGclass, _attributes) {
-    let customFunction = function () {
-        let SVG = document.createElementNS("http://www.w3.org/2000/svg", _name);
-        if (_SVGclass != "")
-            SVG.classList.add(_SVGclass);
-        for (let k in _attributes) {
-            SVG.setAttribute(k, _attributes[k]);
-        }
-        return SVG;
-    }
-    return customFunction;
-
-}
