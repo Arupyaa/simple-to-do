@@ -97,6 +97,9 @@ let TodosInterface = (function () {
             let checklistEdit = makeSVG();
             checklistEdit.appendChild(makePath1());
             checklistEdit.appendChild(makePath2());
+            checklistEdit.addEventListener("click", function () {
+                modal.editChecklist(project, this.parentNode.parentNode.parentNode.dataset.id);
+            });
             let checklistTitle = document.createElement("h4");
             checklistTitle.textContent = "Checklist:";
             let checklistBox = document.createElement("div");
@@ -146,7 +149,37 @@ let TodosInterface = (function () {
         dueDate.textContent = dateFormat(value, "MMM d h:mm aa");
     }
 
-    return { displayTodos, editTitle, editDescription, editNotes, editDueDate };
+    let editChecklist = function (id, objList) {
+        let card = document.querySelector(`[data-id = '${id}']`);
+        let checklist = card.querySelector("ul");
+        let checklistBox = checklist.parentNode;
+        while (checklist.firstChild)
+            checklist.firstChild.remove();
+
+        if (objList.length == 0) {
+            while (checklistBox.firstChild)
+                checklistBox.firstChild.remove();
+            checklistBox.remove();
+        }
+        else {
+            objList.forEach(element => {
+                let list = document.createElement("li");
+                let listText = document.createElement("span");
+                let checkbox = document.createElement("input");
+                checkbox.setAttribute("type", "checkbox");
+                checkbox.classList.add("checkbox");
+                if (element.state) {
+                    checkbox.setAttribute("checked", "");
+                }
+                listText.textContent = element.name;
+                list.appendChild(checkbox);
+                list.appendChild(listText);
+                checklist.appendChild(list);
+            })
+        }
+    }
+
+    return { displayTodos, editTitle, editDescription, editNotes, editDueDate, editChecklist };
 })();
 
 function createSVG(_name, _SVGclass, _attributes) {
