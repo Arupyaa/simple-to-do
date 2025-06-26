@@ -1,5 +1,6 @@
 import { format as dateFormat } from "date-fns";
 import { modal } from "./modal";
+import { TodosHandler } from "./todosHandler";
 export { TodosInterface };
 
 let TodosInterface = (function () {
@@ -59,6 +60,14 @@ let TodosInterface = (function () {
             });
             let descriptionDelete = makeDeleteSVG();
             descriptionDelete.appendChild(makePath3());
+            descriptionDelete.addEventListener("click", function () {
+                let box = this.parentNode;
+                box.setAttribute("style", "display:none");
+                let card = this.parentNode.parentNode.parentNode;
+                let btn = card.querySelector("button[data-type='description']");
+                btn.setAttribute("style", "display:inline-block");
+                TodosHandler.removeDescription(project, card.dataset.id);
+            });
             let descriptionTitle = document.createElement("h4");
             descriptionTitle.textContent = "Description:";
             let descriptionBox = document.createElement("div");
@@ -79,6 +88,14 @@ let TodosInterface = (function () {
             });
             let notesDelete = makeDeleteSVG();
             notesDelete.appendChild(makePath3());
+            notesDelete.addEventListener("click", function () {
+                let box = this.parentNode;
+                box.setAttribute("style", "display:none");
+                let card = this.parentNode.parentNode.parentNode;
+                let btn = card.querySelector("button[data-type='notes']");
+                btn.setAttribute("style", "display:inline-block");
+                TodosHandler.removeNotes(project, card.dataset.id);
+            });
             let notesTitle = document.createElement("h4");
             notesTitle.textContent = "Notes:";
             let notesBox = document.createElement("div");
@@ -113,6 +130,14 @@ let TodosInterface = (function () {
             });
             let checklistDelete = makeDeleteSVG();
             checklistDelete.appendChild(makePath3());
+            checklistDelete.addEventListener("click", function () {
+                let box = this.parentNode;
+                box.setAttribute("style", "display:none");
+                let card = this.parentNode.parentNode.parentNode;
+                let btn = card.querySelector("button[data-type='checklist']");
+                btn.setAttribute("style", "display:inline-block");
+                TodosHandler.removeChecklist(project, card.dataset.id);
+            });
             let checklistTitle = document.createElement("h4");
             checklistTitle.textContent = "Checklist:";
             let checklistBox = document.createElement("div");
@@ -122,13 +147,58 @@ let TodosInterface = (function () {
             checklistBox.appendChild(checklistEdit);
             checklistBox.appendChild(checklist);
 
+            let addButtons = document.createElement("div");
+            let addDescriptionBtn = document.createElement("button");
+            let addNotesBtn = document.createElement("button");
+            let addChecklistBtn = document.createElement("button");
+            addDescriptionBtn.classList.add("add-btn");
+            addDescriptionBtn.dataset.type = "description";
+            addDescriptionBtn.textContent = "add description";
+            addDescriptionBtn.addEventListener("click", function () {
+                let card = this.parentNode.parentNode.parentNode;
+                modal.editDescription(project, card.dataset.id);
+                let box = card.querySelector(".description-box");
+                box.setAttribute("style", "display:grid");
+                this.setAttribute("style", "display:none");
+
+            });
+            addNotesBtn.classList.add("add-btn");
+            addNotesBtn.dataset.type = "notes";
+            addNotesBtn.textContent = "add notes";
+            addNotesBtn.addEventListener("click", function () {
+                let card = this.parentNode.parentNode.parentNode;
+                modal.editNotes(project, card.dataset.id);
+                let box = card.querySelector(".notes-box");
+                box.setAttribute("style", "display:grid");
+                this.setAttribute("style", "display:none");
+            });
+            addChecklistBtn.classList.add("add-btn");
+            addChecklistBtn.dataset.type = "checklist";
+            addChecklistBtn.textContent = "add checklist";
+            addChecklistBtn.addEventListener("click", function () {
+                let card = this.parentNode.parentNode.parentNode;
+                modal.editChecklist(project, card.dataset.id);
+                let box = card.querySelector(".checklist-box");
+                box.setAttribute("style", "display:grid");
+                this.setAttribute("style", "display:none");
+            });
+            addButtons.appendChild(addDescriptionBtn);
+            addButtons.appendChild(addNotesBtn);
+            addButtons.appendChild(addChecklistBtn);
+
             //hide a specific todo field if not defined by user
             if (todo.description == undefined)
                 descriptionBox.setAttribute("style", "display:none");
+            else
+                addDescriptionBtn.setAttribute("style", "display:none");
             if (todo.notes == undefined)
                 notesBox.setAttribute("style", "display:none");
+            else
+                addNotesBtn.setAttribute("style", "display:none");
             if (todo.checklist == undefined)
                 checklistBox.setAttribute("style", "display:none");
+            else
+                addChecklistBtn.setAttribute("style", "display:none");
 
             card.appendChild(header);
             cardBody.appendChild(titleBox);
@@ -136,6 +206,7 @@ let TodosInterface = (function () {
             cardBody.appendChild(descriptionBox);
             cardBody.appendChild(notesBox);
             cardBody.appendChild(checklistBox);
+            cardBody.appendChild(addButtons);
             card.appendChild(cardBody);
             card.dataset.id = todo.id;
             container.appendChild(card);
@@ -168,7 +239,7 @@ let TodosInterface = (function () {
         dueDate.textContent = dateFormat(value, "MMM d h:mm aa");
     }
 
-    let editChecklist = function (id, objList) {
+    let editChecklist = function (project,id, objList) {
         let card = document.querySelector(`[data-id = '${id}']`);
         let checklist = card.querySelector("ul");
         let checklistBox = checklist.parentNode;
@@ -176,9 +247,12 @@ let TodosInterface = (function () {
             checklist.firstChild.remove();
 
         if (objList.length == 0) {
-            while (checklistBox.firstChild)
-                checklistBox.firstChild.remove();
-            checklistBox.remove();
+            let card = document.querySelector(`[data-id = '${id}']`);
+            let box = card.querySelector(".checklist-box");
+            box.setAttribute("style", "display:none");
+            let btn = card.querySelector("button[data-type='checklist']");
+            btn.setAttribute("style", "inline-block");
+            TodosHandler.removeChecklist(project, card.dataset.id);
         }
         else {
             objList.forEach(element => {

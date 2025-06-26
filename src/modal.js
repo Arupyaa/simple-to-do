@@ -30,14 +30,13 @@ let modal = (function () {
                     TodosInterface.editDueDate(_id, dueDateValue);
                     break;
                 case "checklist":
-                    if(modal.returnValue == "submit")
-                    {
+                    if (modal.returnValue == "submit") {
                         let list = Array.from(_checklist.querySelectorAll("li"));
                         let returnedList = [];
-                        list.forEach((li) =>{
+                        list.forEach((li) => {
                             let listName = li.querySelector("input[type='text']");
                             //skip item if empty
-                            if(listName.value == "")
+                            if (listName.value == "")
                                 return;
 
                             let listCheckbox = li.querySelector("input[type='checkbox']");
@@ -47,8 +46,8 @@ let modal = (function () {
                             obj.state = listCheckbox.checked;
                             returnedList.push(obj);
                         });
-                        TodosHandler.editChecklist(_project,_id,returnedList);
-                        TodosInterface.editChecklist(_id,returnedList);
+                        TodosHandler.editChecklist(_project, _id, returnedList);
+                        TodosInterface.editChecklist(_project, _id, returnedList);
                     }
                     break;
             }
@@ -211,6 +210,16 @@ let modal = (function () {
                 list.appendChild(listText);
                 checklist.appendChild(list);
             })
+        }
+        else {
+            let newList = document.createElement("li");
+            let newCheckbox = document.createElement("input");
+            newCheckbox.setAttribute("type", "checkbox");
+            let newName = document.createElement("input");
+            newName.setAttribute("type", "text");
+            newList.appendChild(newCheckbox);
+            newList.appendChild(newName);
+            checklist.appendChild(newList);
         }
 
         let checklistDescription = document.createElement("p");
