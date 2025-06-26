@@ -5,9 +5,10 @@ import { Project } from "./projects.js";
 import { TodosHandler } from './todosHandler';
 import { TodosInterface } from './interface.js';
 
-TodosInterface.interfaceInit();
-
 let project = new Project();
+TodosInterface.interfaceInit(project);
+
+
 TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
 TodosHandler.addTodo(project,"Tidy room","tidy your room",new Date("2025-06-19T12:30"),"don't procrascinate",[
     {name:"bedroom",state:false},
@@ -18,6 +19,7 @@ TodosHandler.addTodo(project,"Tidy room","tidy your room",new Date("2025-06-19T1
 TodosHandler.addTodo(project,"sleep","go to bed",new Date("2025-06-23T03:10"),"nonsense");
 
 //filler cards
+/* TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
 TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
 TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
 TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
@@ -30,8 +32,7 @@ TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00
 TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
 TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
 TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
-TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
-TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
+TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00")); */
 
 //end of filler cards
 

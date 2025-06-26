@@ -16,7 +16,7 @@ let TodosInterface = (function () {
     let projectContainer;
 
 
-    let interfaceInit = function () {
+    let interfaceInit = function (project) {
         projectContainer = document.createElement("div");
         projectContainer.classList.add("project-container");
         let projectButtonContainer = document.createElement("div");
@@ -29,7 +29,9 @@ let TodosInterface = (function () {
         let addCardIcon = addCardSVG();
         addCardIcon.appendChild(addline1());
         addCardIcon.appendChild(addline2());
-
+        addCardIcon.addEventListener("click",function(){
+            modal.addTodo(project);
+        });
         projectButtonContainer.appendChild(addCardIcon);
         projectContainer.appendChild(projectButtonContainer);
         mainContainer.appendChild(projectContainer);

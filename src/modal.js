@@ -1,6 +1,6 @@
 import { TodosHandler } from "./todosHandler";
 import { TodosInterface } from "./interface.js";
-import { parse as parseDate } from "date-fns";
+import { add, parse as parseDate } from "date-fns";
 export { modal };
 
 let modal = (function () {
@@ -60,6 +60,96 @@ let modal = (function () {
         while (modal.firstChild) {
             modal.firstChild.remove();
         }
+    }
+
+    let addTodo = function (project) {
+        let form = document.createElement("form");
+        let title = document.createElement("input");
+        title.setAttribute("type", "text");
+        title.setAttribute("id", "title-field");
+        title.setAttribute("required", "");
+        let dueDate = document.createElement("input");
+        dueDate.setAttribute("type", "datetime-local");
+        dueDate.setAttribute("id", "dueDate-field");
+        dueDate.setAttribute("required", "");
+        let description = document.createElement("textarea");
+        description.setAttribute("id", "description-field");
+        let notes = document.createElement("textarea");
+        notes.setAttribute("id", "notes-field");
+        let checklist = document.createElement("ul");
+
+        let titleLabel = document.createElement("label");
+        titleLabel.setAttribute("for", "title-field");
+        titleLabel.textContent = "Title: ";
+        let dueDateLabel = document.createElement("label");
+        dueDateLabel.setAttribute("for", "dueDate-field");
+        dueDateLabel.textContent = "DueDate: ";
+        let descriptionLabel = document.createElement("label");
+        descriptionLabel.setAttribute("for", "description-field");
+        descriptionLabel.textContent = "Description: ";
+        let notesLabel = document.createElement("label");
+        notesLabel.setAttribute("for", "notes-field");
+        notesLabel.textContent = "Notes: ";
+        let checklistLabel = document.createElement("label");
+        checklistLabel.setAttribute("for", "checklist-field");
+        checklistLabel.textContent = "Checklist*: ";
+
+        let checklistFooter = document.createElement("footer");
+        checklistFooter.textContent = "*empty items will be ignored";
+
+        let addItemBtn = document.createElement("button");
+        addItemBtn.textContent = "add item";
+        addItemBtn.setAttribute("type","button");
+        let cancelBtn = document.createElement("button");
+        cancelBtn.textContent = "cancel";
+        cancelBtn.setAttribute("type","button");
+        let submitBtn = document.createElement("button");
+        submitBtn.setAttribute("type","submit");
+        submitBtn.textContent = "add card";
+
+        let newList = document.createElement("li");
+        let newCheckbox = document.createElement("input");
+        newCheckbox.setAttribute("type", "checkbox");
+        let newName = document.createElement("input");
+        newName.setAttribute("type", "text");
+        newName.setAttribute("id", "checklist-field");
+        newList.appendChild(newCheckbox);
+        newList.appendChild(newName);
+        checklist.appendChild(newList);
+        addItemBtn.addEventListener("click", () => {
+            let nameList = checklist.querySelectorAll("input[type='text']");
+            let lastList = nameList[nameList.length - 1];
+            if (lastList.value == "") {
+                lastList.focus();
+            }
+            else {
+                let newList = document.createElement("li");
+                let newCheckbox = document.createElement("input");
+                newCheckbox.setAttribute("type", "checkbox");
+                let newName = document.createElement("input");
+                newName.setAttribute("type", "text");
+                newList.appendChild(newCheckbox);
+                newList.appendChild(newName);
+                checklist.appendChild(newList);
+            }
+        });
+        form.appendChild(titleLabel);
+        form.appendChild(title);
+        form.appendChild(dueDateLabel);
+        form.appendChild(dueDate);
+        form.appendChild(descriptionLabel);
+        form.appendChild(description);
+        form.appendChild(notesLabel);
+        form.appendChild(notes);
+        form.appendChild(checklistLabel);
+        form.appendChild(checklist);
+        form.appendChild(checklistFooter);
+        form.appendChild(addItemBtn);
+        form.appendChild(cancelBtn);
+        form.appendChild(submitBtn);
+        modal.appendChild(form);
+        
+        modal.showModal();
     }
 
     let editTitle = function (project, id) {
@@ -266,5 +356,5 @@ let modal = (function () {
 
     }
 
-    return { editTitle, editDescription, editNotes, editDueDate, editChecklist };
+    return { addTodo, editTitle, editDescription, editNotes, editDueDate, editChecklist };
 })();
