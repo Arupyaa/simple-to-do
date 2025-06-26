@@ -13,6 +13,29 @@ let TodosInterface = (function () {
         "fill-rule": "evenodd", "clip-rule": "evenodd"
     });
 
+    let projectContainer;
+
+
+    let interfaceInit = function () {
+        projectContainer = document.createElement("div");
+        projectContainer.classList.add("project-container");
+        let projectButtonContainer = document.createElement("div");
+        projectButtonContainer.classList.add("project-btn-container");
+        let mainContainer = document.querySelector(".container");
+
+        let addCardSVG = createSVG("svg", "add-card-icon", {viewBox: "0 0 24 24" });
+        let addline1 = createSVG("line", "edit-line", {stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "12", x2: "12", y1: "19", y2: "5" });
+        let addline2 = createSVG("line", "edit-line", {stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "5", x2: "19", y1: "12", y2: "12" });
+        let addCardIcon = addCardSVG();
+        addCardIcon.appendChild(addline1());
+        addCardIcon.appendChild(addline2());
+
+        projectButtonContainer.appendChild(addCardIcon);
+        projectContainer.appendChild(projectButtonContainer);
+        mainContainer.appendChild(projectContainer);
+
+    }
+
     let displayTodos = function (container, project) {
         project.list.forEach(todo => {
 
@@ -239,7 +262,7 @@ let TodosInterface = (function () {
         dueDate.textContent = dateFormat(value, "MMM d h:mm aa");
     }
 
-    let editChecklist = function (project,id, objList) {
+    let editChecklist = function (project, id, objList) {
         let card = document.querySelector(`[data-id = '${id}']`);
         let checklist = card.querySelector("ul");
         let checklistBox = checklist.parentNode;
@@ -272,7 +295,11 @@ let TodosInterface = (function () {
         }
     }
 
-    return { displayTodos, editTitle, editDescription, editNotes, editDueDate, editChecklist };
+    return {
+        get projectContainer() {
+            return projectContainer;
+        }, interfaceInit, displayTodos, editTitle, editDescription, editNotes, editDueDate, editChecklist
+    };
 })();
 
 function createSVG(_name, _SVGclass, _attributes) {

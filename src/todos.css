@@ -2,8 +2,13 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
     background-color: #1f1f1f;
-    padding: 3rem;
+    padding: 5rem 3rem 3rem 3rem;
     gap: 2rem;
+    position: relative;
+    overflow-y: auto;
+    scrollbar-color: grey #1f1f1f;
+    height:calc(100vh - 5rem - 3rem);
+    max-height: calc(100vh - 5rem - 3rem);
 }
 
 .todo-card {
