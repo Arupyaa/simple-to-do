@@ -52,6 +52,10 @@
 
 }
 
+.delete-icon{
+    margin-right: 0.5rem;
+}
+.delete-icon,
 .edit-icon {
     width: 1rem;
     height: 1rem;
@@ -60,19 +64,18 @@
 }
 
 .title-box,
-.dueDate-box,
-.description-box,
-.notes-box,
-.checklist-box {
+.dueDate-box{
     display: grid;
     width: 100%;
-    grid-template-columns: auto auto;
-
+    grid-template-columns: auto min-content;
 }
 
 .description-box,
 .notes-box,
 .checklist-box {
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto min-content min-content;
     margin-top: 1rem;
     grid-template-rows: auto auto;
 }
