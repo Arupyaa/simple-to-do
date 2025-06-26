@@ -42,8 +42,11 @@ let TodosHandler = (function () {
     let editDueDate = makeAnEdit("dueDate");
     let editNotes = makeAnEdit("notes");
     let editChecklist = makeAnEdit("checklist");
+    let removeDescription = removeField("description");
+    let removeNotes = removeField("notes");
+    let removeChecklist = removeField("checklist");
 
-    return { addTodo, removeTodo, increasePriority, decreasePriority, editTitle, editDescription, editDueDate, editNotes, editChecklist };
+    return { addTodo, removeTodo, increasePriority, decreasePriority, editTitle, editDescription, editDueDate, editNotes, editChecklist, removeDescription, removeNotes, removeChecklist };
 })();
 
 function makeAnEdit(editField) {
@@ -59,3 +62,15 @@ function makeAnEdit(editField) {
     return edit;
 }
 
+function removeField(field) {
+    let remove = function (project, id) {
+        let index = project.list.findIndex((todo) => todo.id == id);
+        if (index != -1) {
+            project.list[index][field] = undefined;
+            return true;
+        }
+        else
+            return false;
+    }
+    return remove;
+}
