@@ -120,6 +120,12 @@ let TodosInterface = (function () {
         card.classList.add("todo-card");
         let header = document.createElement("div");
         header.textContent = todo.priority;
+        let deleteCardIcon = makeDeleteSVG();
+        deleteCardIcon.appendChild(makePath3());
+        deleteCardIcon.addEventListener("click",function(){
+            modal.removeCardConfirmation(project,this.parentNode.parentNode.dataset.id);
+        });
+        header.appendChild(deleteCardIcon);
         let cardBody = document.createElement("div");
         let title = document.createElement("h3");
         title.classList.add("title");
@@ -312,10 +318,17 @@ let TodosInterface = (function () {
         container.appendChild(card);
     }
 
+    let removeCard = function(id){
+        let card = document.querySelector(`[data-id = '${id}']`);
+        while(card.firstChild)
+            card.firstChild.remove();
+        card.remove();
+    }
+
     return {
         get projectContainer() {
             return projectContainer;
-        }, interfaceInit, displayCard, displayTodos, editTitle, editDescription, editNotes, editDueDate, editChecklist
+        }, interfaceInit, displayCard, displayTodos, removeCard, editTitle, editDescription, editNotes, editDueDate, editChecklist
     };
 })();
 

@@ -74,6 +74,13 @@ let modal = (function () {
                         TodosInterface.displayCard(container, _project, todo);
                     }
                     break;
+                    case "confirmation":
+                        if(modal.returnValue == "confirm")
+                        {
+                            TodosHandler.removeTodo(_project,_id);
+                            TodosInterface.removeCard(_id);
+                        }
+                        break;
             }
         }
         //making sure modal is cleared if closed by pressing ESC
@@ -399,5 +406,28 @@ let modal = (function () {
 
     }
 
-    return { addTodo, editTitle, editDescription, editNotes, editDueDate, editChecklist };
+    let removeCardConfirmation = function(project,todoID){
+        _project = project;
+        _id = todoID;
+        let confirmationText = document.createElement("div");
+        confirmationText.textContent = "Are you sure you want to delete this card?";
+        let cancelBtn = document.createElement("button");
+        cancelBtn.textContent = "cancel";
+        cancelBtn.addEventListener("click",()=>{
+            modal.close();
+        });
+        let confirmBtn = document.createElement("button");
+        confirmBtn.textContent = "confirm";
+        confirmBtn.addEventListener("click",()=>{
+            modal.close("confirm");
+        });
+
+        modal.appendChild(confirmationText);
+        modal.appendChild(cancelBtn);
+        modal.appendChild(confirmBtn);
+        modal.dataset.state = "confirmation";
+        modal.showModal();
+    }
+
+    return { addTodo, editTitle, editDescription, editNotes, editDueDate, editChecklist, removeCardConfirmation };
 })();
