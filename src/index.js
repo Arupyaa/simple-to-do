@@ -6,19 +6,21 @@ import { TodosHandler } from './todosHandler';
 import { TodosInterface } from './interface.js';
 
 let exampleProject = new Project("example project");
-let projects = [exampleProject];
+let exampleProject2 = new Project("project crspy");
+let projects = [exampleProject, exampleProject2];
 TodosInterface.interfaceInit(projects);
 
 
-TodosHandler.addTodo(projects[0],"do HW","do my homework",new Date("2025-06-21T00:00"));
-TodosHandler.addTodo(projects[0],"Tidy room","tidy your room",new Date("2025-06-19T12:30"),"don't procrascinate",[
+TodosHandler.addTodo(projects[0],"do HW",new Date("2025-06-21T00:00"),"do my homework");
+TodosHandler.addTodo(projects[0],"Tidy room",new Date("2025-06-19T12:30"),"tidy your room","don't procrascinate",[
     {name:"bedroom",state:false},
     {name:"desk",state:true},
     {name:"closet",state:false}
 ]
 );
-TodosHandler.addTodo(projects[0],"sleep","go to bed",new Date("2025-06-23T03:10"),"nonsense");
+TodosHandler.addTodo(projects[0],"sleep",new Date("2025-06-23T03:10"),"go to bed","nonsense");
 
+TodosHandler.addTodo(projects[1],"do crspy",new Date("2025-11-18T06:00"));
 //filler cards
 /* TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
 TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00"));
@@ -36,8 +38,7 @@ TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00
 TodosHandler.addTodo(project,"do HW","do my homework",new Date("2025-06-21T00:00")); */
 
 //end of filler cards
-
-TodosInterface.displayTodos(TodosInterface.projectContainer,projects[0]);
+TodosInterface.projectFocus(projects[0].id);
 
 /* console.log("original order:");
 console.log(JSON.parse(JSON.stringify(project)));

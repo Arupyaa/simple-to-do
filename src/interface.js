@@ -13,7 +13,7 @@ let TodosInterface = (function () {
         "fill-rule": "evenodd", "clip-rule": "evenodd"
     });
 
-    let projectContainer, _projects;
+    let projectContainer, _projects, currProjectID = undefined;
 
 
     let interfaceInit = function (projects) {
@@ -25,7 +25,7 @@ let TodosInterface = (function () {
 
         let sidebar = document.querySelector(".sidebar");
         let projectTitle = document.createElement("h2");
-        projectTitle.textContent = "projects";
+        projectTitle.textContent = "projects:";
         let projectList = document.createElement("ul");
         sidebar.appendChild(projectTitle);
         sidebar.appendChild(projectList);
@@ -48,9 +48,9 @@ let TodosInterface = (function () {
 
     }
 
-    let displayTodos = function (container, project) {
+    function displayTodos(project) {
         project.list.forEach(todo => {
-            displayCard(container, project, todo);
+            displayCard(project, todo);
         });
 
     };
@@ -125,7 +125,7 @@ let TodosInterface = (function () {
         return customFunction;
     }
 
-    function displayCard(container, project, todo) {
+    function displayCard(project, todo) {
         let card = document.createElement("div");
         card.classList.add("todo-card");
         let header = document.createElement("div");
@@ -325,7 +325,7 @@ let TodosInterface = (function () {
         cardBody.appendChild(addButtons);
         card.appendChild(cardBody);
         card.dataset.id = todo.id;
-        container.appendChild(card);
+        projectContainer.appendChild(card);
     }
 
     let removeCard = function (id) {
@@ -336,23 +336,45 @@ let TodosInterface = (function () {
     }
 
     function updateProjects() {
-        let projectItems = Array.from(document.querySelectorAll(".siderbar>ul>li"));
+        let projectItems = Array.from(document.querySelectorAll(".sidebar>ul>li"));
         let projectList = document.querySelector(".sidebar>ul");
 
         _projects.forEach((project) => {
-            if (projectItems.find((p) => p.id == project.id) == undefined) {
+            if (projectItems.find((p) => p.dataset.id == project.id) == undefined) {
                 let entry = document.createElement("li");
                 entry.textContent = project.name;
+                entry.addEventListener("click", function () { projectFocus(this.dataset.id); });
                 entry.dataset.id = project.id;
-                projectList.appendChild(entry);        
+                projectList.appendChild(entry);
             }
         });
     }
 
+    let projectFocus = function (projectID) {
+        //reset project container
+        while (projectContainer.firstChild)
+            projectContainer.firstChild.remove();
+
+        let projectItems = Array.from(document.querySelectorAll(".sidebar>ul>li"));
+        if (currProjectID != undefined) {
+            let oldProject = projectItems.filter((p) => p.dataset.id == currProjectID);
+            oldProject[0].classList.toggle("focus-project");
+        }
+        let project = projectItems.filter((p) => p.dataset.id == projectID);
+        project[0].classList.toggle("focus-project");
+        currProjectID = projectID;
+
+        let projectEntry = _projects.filter((p) => p.id == projectID);
+        //display the new project currently selected
+        displayTodos(projectEntry[0]);
+
+    }
+
+
     return {
         get projectContainer() {
             return projectContainer;
-        }, interfaceInit, displayCard, displayTodos, removeCard, editTitle, editDescription, editNotes, editDueDate, editChecklist
+        }, interfaceInit, displayCard, displayTodos, removeCard, editTitle, editDescription, editNotes, editDueDate, editChecklist, projectFocus
     };
 })();
 
