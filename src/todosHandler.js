@@ -6,6 +6,7 @@ let TodosHandler = (function () {
     let addTodo = function (project, title, description, dueDate, notes = "", checklist = []) {
         let todo = new Todos(crypto.randomUUID(), title, description, dueDate, notes, checklist, project.list.length + 1);
         project.list.push(todo);
+        return todo;
     }
 
     let removeTodo = function (project, id) {

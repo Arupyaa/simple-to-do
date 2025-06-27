@@ -4,7 +4,7 @@ import { add, parse as parseDate } from "date-fns";
 export { modal };
 
 let modal = (function () {
-    let _project = [], _id = "", _checklist = undefined;
+    let _project = [], _id = "", _checklist = undefined, _title = undefined, _dueDate = undefined, _description = undefined, _notes = undefined;
     let modal = document.createElement("dialog");
     modal.classList.add("modal");
     document.body.appendChild(modal);
@@ -50,6 +50,30 @@ let modal = (function () {
                         TodosInterface.editChecklist(_project, _id, returnedList);
                     }
                     break;
+                case "form":
+                    if (modal.returnValue == "submit") {
+                        let list = Array.from(_checklist.querySelectorAll("li"));
+                        let returnedList = [];
+                        list.forEach((li) => {
+                            let listName = li.querySelector("input[type='text']");
+                            //skip item if empty
+                            if (listName.value == "")
+                                return;
+
+                            let listCheckbox = li.querySelector("input[type='checkbox']");
+                            let obj = {};
+                            obj.name = listName.value;
+                            let test = listCheckbox.checked; //test
+                            obj.state = listCheckbox.checked;
+                            returnedList.push(obj);
+                        });
+
+                        let dueDateValue = parseDate(_dueDate.value, "yyyy-MM-dd'T'HH:mm", new Date());
+                        let todo = TodosHandler.addTodo(_project, _title.value, _description.value, dueDateValue, _notes.value, returnedList);
+                        let container = document.querySelector(".project-container");
+                        TodosInterface.displayCard(container, _project, todo);
+                    }
+                    break;
             }
         }
         //making sure modal is cleared if closed by pressing ESC
@@ -63,20 +87,26 @@ let modal = (function () {
     }
 
     let addTodo = function (project) {
+        _project = project;
         let form = document.createElement("form");
         let title = document.createElement("input");
+        _title = title;
         title.setAttribute("type", "text");
         title.setAttribute("id", "title-field");
         title.setAttribute("required", "");
         let dueDate = document.createElement("input");
+        _dueDate = dueDate;
         dueDate.setAttribute("type", "datetime-local");
         dueDate.setAttribute("id", "dueDate-field");
         dueDate.setAttribute("required", "");
         let description = document.createElement("textarea");
+        _description = description;
         description.setAttribute("id", "description-field");
         let notes = document.createElement("textarea");
+        _notes = notes;
         notes.setAttribute("id", "notes-field");
         let checklist = document.createElement("ul");
+        _checklist = checklist;
 
         let titleLabel = document.createElement("label");
         titleLabel.setAttribute("for", "title-field");
@@ -99,13 +129,25 @@ let modal = (function () {
 
         let addItemBtn = document.createElement("button");
         addItemBtn.textContent = "add item";
-        addItemBtn.setAttribute("type","button");
+        addItemBtn.setAttribute("type", "button");
         let cancelBtn = document.createElement("button");
         cancelBtn.textContent = "cancel";
-        cancelBtn.setAttribute("type","button");
+        cancelBtn.setAttribute("type", "button");
+        cancelBtn.addEventListener("click", () => {
+            modal.close();
+        });
         let submitBtn = document.createElement("button");
-        submitBtn.setAttribute("type","submit");
+        submitBtn.setAttribute("type", "submit");
         submitBtn.textContent = "add card";
+        submitBtn.addEventListener("click", (e) => {
+            if (!form.checkValidity()) {
+                form.reportValidity();
+            }
+            else {
+                modal.close("submit");
+            }
+            e.preventDefault();
+        })
 
         let newList = document.createElement("li");
         let newCheckbox = document.createElement("input");
@@ -148,7 +190,8 @@ let modal = (function () {
         form.appendChild(cancelBtn);
         form.appendChild(submitBtn);
         modal.appendChild(form);
-        
+
+        modal.dataset.state = "form";
         modal.showModal();
     }
 

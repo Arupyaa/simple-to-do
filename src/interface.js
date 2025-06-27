@@ -40,7 +40,7 @@ let TodosInterface = (function () {
 
     let displayTodos = function (container, project) {
         project.list.forEach(todo => {
-            displayCard(container, todo);
+            displayCard(container, project, todo);
         });
 
     };
@@ -115,7 +115,7 @@ let TodosInterface = (function () {
         return customFunction;
     }
 
-    function displayCard(container, todo) {
+    function displayCard(container, project, todo) {
         let card = document.createElement("div");
         card.classList.add("todo-card");
         let header = document.createElement("div");
@@ -315,7 +315,7 @@ let TodosInterface = (function () {
     return {
         get projectContainer() {
             return projectContainer;
-        }, interfaceInit, displayTodos, editTitle, editDescription, editNotes, editDueDate, editChecklist
+        }, interfaceInit, displayCard, displayTodos, editTitle, editDescription, editNotes, editDueDate, editChecklist
     };
 })();
 

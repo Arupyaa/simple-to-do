@@ -12,7 +12,8 @@ class Todos {
     constructor(id,title, description, dueDate, notes = "", checklist = [],priority) {
         this.#id = id;
         this.title = title;
-        this.description = description;
+        if(description !="")
+            this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
         if (notes != "")
