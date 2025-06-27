@@ -13,15 +13,25 @@ let TodosInterface = (function () {
         "fill-rule": "evenodd", "clip-rule": "evenodd"
     });
 
-    let projectContainer;
+    let projectContainer, _projects;
 
 
-    let interfaceInit = function (project) {
+    let interfaceInit = function (projects) {
         projectContainer = document.createElement("div");
         projectContainer.classList.add("project-container");
         let projectButtonContainer = document.createElement("div");
         projectButtonContainer.classList.add("project-btn-container");
         let mainContainer = document.querySelector(".container");
+
+        let sidebar = document.querySelector(".sidebar");
+        let projectTitle = document.createElement("h2");
+        projectTitle.textContent = "projects";
+        let projectList = document.createElement("ul");
+        sidebar.appendChild(projectTitle);
+        sidebar.appendChild(projectList);
+
+        _projects = projects;
+        updateProjects();
 
         let addCardSVG = createSVG("svg", "add-card-icon", { viewBox: "0 0 24 24" });
         let addline1 = createSVG("line", "edit-line", { stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "12", x2: "12", y1: "19", y2: "5" });
@@ -122,8 +132,8 @@ let TodosInterface = (function () {
         header.textContent = todo.priority;
         let deleteCardIcon = makeDeleteSVG();
         deleteCardIcon.appendChild(makePath3());
-        deleteCardIcon.addEventListener("click",function(){
-            modal.removeCardConfirmation(project,this.parentNode.parentNode.dataset.id);
+        deleteCardIcon.addEventListener("click", function () {
+            modal.removeCardConfirmation(project, this.parentNode.parentNode.dataset.id);
         });
         header.appendChild(deleteCardIcon);
         let cardBody = document.createElement("div");
@@ -318,11 +328,25 @@ let TodosInterface = (function () {
         container.appendChild(card);
     }
 
-    let removeCard = function(id){
+    let removeCard = function (id) {
         let card = document.querySelector(`[data-id = '${id}']`);
-        while(card.firstChild)
+        while (card.firstChild)
             card.firstChild.remove();
         card.remove();
+    }
+
+    function updateProjects() {
+        let projectItems = Array.from(document.querySelectorAll(".siderbar>ul>li"));
+        let projectList = document.querySelector(".sidebar>ul");
+
+        _projects.forEach((project) => {
+            if (projectItems.find((p) => p.id == project.id) == undefined) {
+                let entry = document.createElement("li");
+                entry.textContent = project.name;
+                entry.dataset.id = project.id;
+                projectList.appendChild(entry);        
+            }
+        });
     }
 
     return {
