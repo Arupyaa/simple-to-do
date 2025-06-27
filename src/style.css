@@ -16,26 +16,26 @@ body {
 
 .header {
     grid-area: header;
-    background-color: gray;
+    background-color: #CDBEAF;
 }
 
 .sidebar {
     grid-area: sidebar;
-    background-color: aqua;
-    scrollbar-color: grey aqua;
+    background-color: #E6DCDC;
+    scrollbar-color: grey #E6DCDC;
     overflow-y: auto;
 }
 
 .container {
     grid-area: container;
-    background-color: aquamarine;
+    background-color: #5A5550;
     /* overflow-y: auto;
     scrollbar-color: grey aquamarine; */
 }
 
 .footer {
     grid-area: footer;
-    background-color: bisque;
+    background-color: #CDBEAF;
 }
 
 .modal {

@@ -1,12 +1,12 @@
 .project-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-    background-color: #1f1f1f;
+    background-color: #5A5550;
     padding: 5rem 3rem 3rem 3rem;
     gap: 2rem;
     position: relative;
     overflow-y: auto;
-    scrollbar-color: grey #1f1f1f;
+    scrollbar-color: grey #5A5550;
     height:calc(100vh - 5rem - 3rem);
     max-height: calc(100vh - 5rem - 3rem);
 }
@@ -16,14 +16,14 @@
     flex-direction: column;
 
     aspect-ratio: 1/1;
-    background-color: white;
-    border: 5px solid #E2DFD2;
+    background-color: #CDBEAF;
+    border: 5px solid #B39F8B;
     border-radius: 1rem;
 
 
     /*header*/
     &>div:first-of-type {
-        background-color: #E2DFD2;
+        background-color: #B39F8B;
         /* margin: 0 -1.5rem 0 -1.5rem;
         border-radius: 1rem 1rem 0 0; */
         padding: 0.2rem 0 0.2rem 0.5rem;
@@ -43,7 +43,7 @@
         }
 
         & .date {
-            color: #ccaa66;
+            color: #A20226;
             font-weight: bold;
         }
 
