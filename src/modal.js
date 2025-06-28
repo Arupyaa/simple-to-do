@@ -1,10 +1,12 @@
 import { TodosHandler } from "./todosHandler";
 import { TodosInterface } from "./interface.js";
 import { add, parse as parseDate } from "date-fns";
+import { Project } from "./projects.js";
 export { modal };
 
 let modal = (function () {
-    let _project = [], _id = "", _checklist = undefined, _title = undefined, _dueDate = undefined, _description = undefined, _notes = undefined;
+    let _id = "", _checklist = undefined, _title = undefined, _dueDate = undefined, _description = undefined, _notes = undefined;
+    let _projects = [], _project = [], _projectID;
     let modal = document.createElement("dialog");
     modal.classList.add("modal");
     document.body.appendChild(modal);
@@ -74,13 +76,37 @@ let modal = (function () {
                         TodosInterface.displayCard(container, _project, todo);
                     }
                     break;
-                    case "confirmation":
-                        if(modal.returnValue == "confirm")
-                        {
-                            TodosHandler.removeTodo(_project,_id);
-                            TodosInterface.removeCard(_id);
-                        }
-                        break;
+                case "confirmation":
+                    if (modal.returnValue == "confirm") {
+                        TodosHandler.removeTodo(_project, _id);
+                        TodosInterface.removeCard(_id);
+                    }
+                    break;
+                case "project-add":
+                    let newProject = Project(modal.returnValue);
+                    _projects.push(newProject);
+                    TodosInterface.updateProjects();
+                    TodosInterface.projectFocus(newProject.id);
+                    break;
+                case "project-rename":
+                    let projectEntry = _projects.filter((p) => p.id == _projectID);
+                    projectEntry[0].name = modal.returnValue;
+                    let projectDOM = document.querySelector(`.sidebar>ul>li[data-id='${_projectID}']`);
+                    projectDOM.textContent = modal.returnValue;
+                    break;
+                case "project-confirmation":
+                    if (modal.returnValue == "confirm") {
+                        let index = _projects.findIndex((p) => p.id == _projectID);
+                        _projects.splice(index, 1);
+                        let projectDOM = document.querySelector(`.sidebar>ul>li[data-id='${_projectID}']`);
+                        projectDOM.remove();
+                        if (_projects.length == 0)
+                            TodosInterface.projectFocus(undefined,true,true);
+                        else
+                            TodosInterface.projectFocus(_projects[0].id,true);
+
+                    }
+                    break;
             }
         }
         //making sure modal is cleared if closed by pressing ESC
@@ -406,19 +432,19 @@ let modal = (function () {
 
     }
 
-    let removeCardConfirmation = function(project,todoID){
+    let removeCardConfirmation = function (project, todoID) {
         _project = project;
         _id = todoID;
         let confirmationText = document.createElement("div");
         confirmationText.textContent = "Are you sure you want to delete this card?";
         let cancelBtn = document.createElement("button");
         cancelBtn.textContent = "cancel";
-        cancelBtn.addEventListener("click",()=>{
+        cancelBtn.addEventListener("click", () => {
             modal.close();
         });
         let confirmBtn = document.createElement("button");
         confirmBtn.textContent = "confirm";
-        confirmBtn.addEventListener("click",()=>{
+        confirmBtn.addEventListener("click", () => {
             modal.close("confirm");
         });
 
@@ -429,5 +455,63 @@ let modal = (function () {
         modal.showModal();
     }
 
-    return { addTodo, editTitle, editDescription, editNotes, editDueDate, editChecklist, removeCardConfirmation };
+    let addProject = function (projects, renameFlag = false, projectID = undefined) {
+        _projects = projects;
+        let projectName = document.createElement("input");
+        projectName.setAttribute("type", "text");
+        projectName.setAttribute("id", "project-field");
+        let projectlabel = document.createElement("label");
+        projectlabel.setAttribute("id", "project-field");
+        if (renameFlag && projectID != undefined)
+            projectlabel.textContent = "new project name: ";
+        else
+            projectlabel.textContent = "project name: ";
+        let cancelBtn = document.createElement("button");
+        cancelBtn.textContent = "cancel";
+        cancelBtn.addEventListener("click", () => {
+            modal.close("");
+        });
+        let confirmBtn = document.createElement("button");
+        confirmBtn.textContent = "confirm";
+        confirmBtn.addEventListener("click", () => {
+            modal.close(projectName.value);
+        });
+
+        modal.appendChild(projectlabel);
+        modal.appendChild(projectName);
+        modal.appendChild(cancelBtn);
+        modal.appendChild(confirmBtn);
+        if (renameFlag && projectID != undefined) {
+            modal.dataset.state = "project-rename";
+            _projectID = projectID;
+        }
+        else
+            modal.dataset.state = "project-add";
+        modal.showModal();
+    }
+
+    let removeProjectConfirmation = function (projects, projectID) {
+        _projects = projects;
+        _projectID = projectID;
+        let confirmationText = document.createElement("div");
+        confirmationText.textContent = "Are you sure you want to delete this project?";
+        let cancelBtn = document.createElement("button");
+        cancelBtn.textContent = "cancel";
+        cancelBtn.addEventListener("click", () => {
+            modal.close("");
+        });
+        let confirmBtn = document.createElement("button");
+        confirmBtn.textContent = "confirm";
+        confirmBtn.addEventListener("click", () => {
+            modal.close("confirm");
+        });
+
+        modal.appendChild(confirmationText);
+        modal.appendChild(cancelBtn);
+        modal.appendChild(confirmBtn);
+        modal.dataset.state = "project-confirmation";
+        modal.showModal();
+    }
+
+    return { addTodo, editTitle, editDescription, editNotes, editDueDate, editChecklist, removeCardConfirmation, addProject, removeProjectConfirmation };
 })();

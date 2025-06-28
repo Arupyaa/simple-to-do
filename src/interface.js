@@ -23,15 +23,41 @@ let TodosInterface = (function () {
         projectButtonContainer.classList.add("project-btn-container");
         let mainContainer = document.querySelector(".container");
 
+        //sidebar initialization 
         let sidebar = document.querySelector(".sidebar");
         let projectTitle = document.createElement("h2");
         projectTitle.textContent = "projects:";
         let projectList = document.createElement("ul");
         sidebar.appendChild(projectTitle);
         sidebar.appendChild(projectList);
-
         _projects = projects;
         updateProjects();
+
+        //header initialization
+        let header = document.querySelector(".header");
+        let headerTitle = document.createElement("h1");
+        headerTitle.textContent = "Simple To Do App";
+        let headerButtons = document.createElement("div");
+        let addProject = document.createElement("button");
+        addProject.textContent = "add project";
+        addProject.addEventListener("click", function () {
+            modal.addProject(_projects, false);
+        });
+        let renameProject = document.createElement("button");
+        renameProject.textContent = "rename project";
+        renameProject.addEventListener("click", function () {
+            modal.addProject(_projects, true, currProjectID);
+        });
+        let deleteProject = document.createElement("button");
+        deleteProject.textContent = "delete project";
+        deleteProject.addEventListener("click", function () {
+            modal.removeProjectConfirmation(_projects, currProjectID);
+        });
+        header.appendChild(headerTitle);
+        headerButtons.appendChild(addProject);
+        headerButtons.appendChild(renameProject);
+        headerButtons.appendChild(deleteProject);
+        header.appendChild(headerButtons);
 
         let addCardSVG = createSVG("svg", "add-card-icon", { viewBox: "0 0 24 24" });
         let addline1 = createSVG("line", "edit-line", { stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "12", x2: "12", y1: "19", y2: "5" });
@@ -350,31 +376,36 @@ let TodosInterface = (function () {
         });
     }
 
-    let projectFocus = function (projectID) {
+    let projectFocus = function (projectID, ignoreOldProjectFlag = false, noProjectFlag = false) {
         //reset project container
         while (projectContainer.firstChild)
             projectContainer.firstChild.remove();
 
         let projectItems = Array.from(document.querySelectorAll(".sidebar>ul>li"));
-        if (currProjectID != undefined) {
+        if (currProjectID != undefined && !ignoreOldProjectFlag) {
             let oldProject = projectItems.filter((p) => p.dataset.id == currProjectID);
             oldProject[0].classList.toggle("focus-project");
         }
-        let project = projectItems.filter((p) => p.dataset.id == projectID);
-        project[0].classList.toggle("focus-project");
-        currProjectID = projectID;
+        if (!noProjectFlag) {
+            let project = projectItems.filter((p) => p.dataset.id == projectID);
+            project[0].classList.toggle("focus-project");
+            currProjectID = projectID;
 
-        let projectEntry = _projects.filter((p) => p.id == projectID);
-        //display the new project currently selected
-        displayTodos(projectEntry[0]);
-
+            let projectEntry = _projects.filter((p) => p.id == projectID);
+            //display the new project currently selected
+            displayTodos(projectEntry[0]);
+        }
+        else
+        {
+            currProjectID = undefined;
+        }
     }
 
 
     return {
         get projectContainer() {
             return projectContainer;
-        }, interfaceInit, displayCard, displayTodos, removeCard, editTitle, editDescription, editNotes, editDueDate, editChecklist, projectFocus
+        }, interfaceInit, displayCard, displayTodos, removeCard, editTitle, editDescription, editNotes, editDueDate, editChecklist, projectFocus, updateProjects
     };
 })();
 
