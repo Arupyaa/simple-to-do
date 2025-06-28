@@ -19,8 +19,6 @@ let TodosInterface = (function () {
     let interfaceInit = function (projects) {
         projectContainer = document.createElement("div");
         projectContainer.classList.add("project-container");
-        let projectButtonContainer = document.createElement("div");
-        projectButtonContainer.classList.add("project-btn-container");
         let mainContainer = document.querySelector(".container");
 
         //sidebar initialization 
@@ -59,23 +57,13 @@ let TodosInterface = (function () {
         headerButtons.appendChild(deleteProject);
         header.appendChild(headerButtons);
 
-        let addCardSVG = createSVG("svg", "add-card-icon", { viewBox: "0 0 24 24" });
-        let addline1 = createSVG("line", "edit-line", { stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "12", x2: "12", y1: "19", y2: "5" });
-        let addline2 = createSVG("line", "edit-line", { stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "5", x2: "19", y1: "12", y2: "12" });
-        let addCardIcon = addCardSVG();
-        addCardIcon.appendChild(addline1());
-        addCardIcon.appendChild(addline2());
-        addCardIcon.addEventListener("click", function () {
-            modal.addTodo(project);
-        });
-        projectButtonContainer.appendChild(addCardIcon);
-        projectContainer.appendChild(projectButtonContainer);
         mainContainer.appendChild(projectContainer);
 
     }
 
     function displayTodos(project) {
         project.list.forEach(todo => {
+            displayAddCardIcon(project);
             displayCard(project, todo);
         });
 
@@ -149,6 +137,23 @@ let TodosInterface = (function () {
             return SVG;
         }
         return customFunction;
+    }
+
+    function displayAddCardIcon(project) {
+        //display the add card SVG
+        let projectButtonContainer = document.createElement("div");
+        projectButtonContainer.classList.add("project-btn-container");
+        let addCardSVG = createSVG("svg", "add-card-icon", { viewBox: "0 0 24 24" });
+        let addline1 = createSVG("line", "edit-line", { stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "12", x2: "12", y1: "19", y2: "5" });
+        let addline2 = createSVG("line", "edit-line", { stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "3", x1: "5", x2: "19", y1: "12", y2: "12" });
+        let addCardIcon = addCardSVG();
+        addCardIcon.appendChild(addline1());
+        addCardIcon.appendChild(addline2());
+        addCardIcon.addEventListener("click", function () {
+            modal.addTodo(project);
+        });
+        projectButtonContainer.appendChild(addCardIcon);
+        projectContainer.appendChild(projectButtonContainer);
     }
 
     function displayCard(project, todo) {
@@ -395,8 +400,7 @@ let TodosInterface = (function () {
             //display the new project currently selected
             displayTodos(projectEntry[0]);
         }
-        else
-        {
+        else {
             currProjectID = undefined;
         }
     }
@@ -405,7 +409,7 @@ let TodosInterface = (function () {
     return {
         get projectContainer() {
             return projectContainer;
-        }, interfaceInit, displayCard, displayTodos, removeCard, editTitle, editDescription, editNotes, editDueDate, editChecklist, projectFocus, updateProjects
+        }, interfaceInit, displayCard, displayTodos, removeCard, editTitle, editDescription, editNotes, editDueDate, editChecklist, projectFocus, updateProjects, displayAddCardIcon
     };
 })();
 

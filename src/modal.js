@@ -71,9 +71,8 @@ let modal = (function () {
                         });
 
                         let dueDateValue = parseDate(_dueDate.value, "yyyy-MM-dd'T'HH:mm", new Date());
-                        let todo = TodosHandler.addTodo(_project, _title.value, _description.value, dueDateValue, _notes.value, returnedList);
-                        let container = document.querySelector(".project-container");
-                        TodosInterface.displayCard(container, _project, todo);
+                        let todo = TodosHandler.addTodo(_project, _title.value, dueDateValue, _description.value, _notes.value, returnedList);
+                        TodosInterface.displayCard(_project, todo);
                     }
                     break;
                 case "confirmation":
@@ -87,6 +86,7 @@ let modal = (function () {
                     _projects.push(newProject);
                     TodosInterface.updateProjects();
                     TodosInterface.projectFocus(newProject.id);
+                    TodosInterface.displayAddCardIcon(newProject);
                     break;
                 case "project-rename":
                     let projectEntry = _projects.filter((p) => p.id == _projectID);
