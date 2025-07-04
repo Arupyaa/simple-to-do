@@ -208,6 +208,9 @@ let modal = (function () {
                 checklist.appendChild(newList);
             }
         });
+
+
+        let buttonDiv = document.createElement("div");
         form.appendChild(titleLabel);
         form.appendChild(title);
         form.appendChild(dueDateLabel);
@@ -219,10 +222,11 @@ let modal = (function () {
         form.appendChild(checklistLabel);
         form.appendChild(checklist);
         form.appendChild(checklistFooter);
-        form.appendChild(addItemBtn);
-        form.appendChild(cancelBtn);
-        form.appendChild(submitBtn);
+        buttonDiv.appendChild(addItemBtn);
+        buttonDiv.appendChild(cancelBtn);
+        buttonDiv.appendChild(submitBtn);
         modal.appendChild(form);
+        modal.appendChild(buttonDiv);
 
         modal.dataset.state = "form";
         modal.showModal();
@@ -467,9 +471,12 @@ let modal = (function () {
             modal.close("confirm");
         });
 
+        let bodyDiv = document.createElement("div");
+        let buttonDiv = document.createElement("div");
         modal.appendChild(confirmationText);
-        modal.appendChild(cancelBtn);
-        modal.appendChild(confirmBtn);
+        buttonDiv.appendChild(cancelBtn);
+        buttonDiv.appendChild(confirmBtn);
+        modal.appendChild(buttonDiv);
         modal.dataset.state = "confirmation";
         modal.showModal();
     }
@@ -496,10 +503,15 @@ let modal = (function () {
             modal.close(projectName.value);
         });
 
-        modal.appendChild(projectlabel);
-        modal.appendChild(projectName);
-        modal.appendChild(cancelBtn);
-        modal.appendChild(confirmBtn);
+        let bodyDiv = document.createElement("div");
+        let buttonDiv = document.createElement("div");
+        bodyDiv.appendChild(projectlabel);
+        bodyDiv.appendChild(projectName);
+        buttonDiv.appendChild(cancelBtn);
+        buttonDiv.appendChild(confirmBtn);
+        modal.appendChild(bodyDiv);
+        modal.appendChild(buttonDiv);
+
         if (renameFlag && projectID != undefined) {
             modal.dataset.state = "project-rename";
             _projectID = projectID;
@@ -525,9 +537,12 @@ let modal = (function () {
             modal.close("confirm");
         });
 
+        let bodyDiv = document.createElement("div");
+        let buttonDiv = document.createElement("div");
         modal.appendChild(confirmationText);
-        modal.appendChild(cancelBtn);
-        modal.appendChild(confirmBtn);
+        buttonDiv.appendChild(cancelBtn);
+        buttonDiv.appendChild(confirmBtn);
+        modal.appendChild(buttonDiv);
         modal.dataset.state = "project-confirmation";
         modal.showModal();
     }

@@ -22,7 +22,9 @@
 .modal[data-state="title"][open],
 .modal[data-state="dueDate"][open],
 .modal[data-state="description"][open],
-.modal[data-state="notes"][open] {
+.modal[data-state="notes"][open],
+.modal[data-state="project-add"][open],
+.modal[data-state="project-rename"][open] {
     & label {
         font-weight: bold;
     }
@@ -198,4 +200,129 @@ textarea:focus {
         }
 
     }
+}
+
+.modal[data-state="form"][open] {
+    form:nth-child(1) {
+        display: grid;
+        padding: 1rem 2rem 4rem 2rem;
+
+        & input,
+        textarea {
+            margin-top: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        & input[type="checkbox"] {
+            transform: scale(1.4);
+        }
+    }
+
+    div:nth-child(2) {
+        display: grid;
+        grid-template-columns: repeat(3, min-content);
+        gap: 0.5rem;
+        position: absolute;
+        right: 0.5rem;
+        bottom: 0.5rem;
+    }
+
+    & button {
+        padding: 0.4rem 0.6rem;
+        justify-self: end;
+        color: white;
+        border: 1px solid black;
+        border-radius: 0.3rem;
+        white-space: nowrap;
+
+        &:nth-child(1) {
+            background-color: hsl(0, 0%, 50%);
+
+            &:hover {
+                background-color: hsl(0, 0%, 40%);
+            }
+
+            &:active {
+                background-color: hsl(0, 0%, 35%);
+            }
+        }
+
+        &:nth-child(2) {
+            background-color: hsl(192, 100%, 44%);
+
+            &:hover {
+                background-color: hsl(192, 100%, 34%);
+            }
+
+            &:active {
+                background-color: hsl(192, 100%, 29%);
+            }
+        }
+
+        &:nth-child(3) {
+            background-color: hsl(192, 100%, 44%);
+
+            &:hover {
+                background-color: hsl(192, 100%, 34%);
+            }
+
+            &:active {
+                background-color: hsl(192, 100%, 29%);
+            }
+        }
+
+    }
+
+}
+
+.modal[data-state*="confirmation"][open] {
+    & div {
+
+        &:nth-child(1) {
+            padding: 2rem 1rem 3rem 1rem;
+        }
+
+        &:nth-child(2) {
+            display: grid;
+            grid-template-columns: min-content min-content;
+            gap: 0.5rem;
+            position: absolute;
+            right: 0.5rem;
+            bottom: 0.5rem;
+        }
+    }
+
+    & button {
+        padding: 0.4rem 0.6rem;
+        justify-self: end;
+        color: white;
+        border: 1px solid black;
+        border-radius: 0.3rem;
+
+        &:nth-child(1) {
+            background-color: hsl(0, 0%, 50%);
+
+            &:hover {
+                background-color: hsl(0, 0%, 40%);
+            }
+
+            &:active {
+                background-color: hsl(0, 0%, 35%);
+            }
+        }
+
+        &:nth-child(2) {
+            background-color: hsl(192, 100%, 44%);
+
+            &:hover {
+                background-color: hsl(192, 100%, 34%);
+            }
+
+            &:active {
+                background-color: hsl(192, 100%, 29%);
+            }
+        }
+
+    }
+
 }
