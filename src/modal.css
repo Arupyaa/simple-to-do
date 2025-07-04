@@ -1,10 +1,127 @@
-.modal{
+.modal {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    padding: 0.5rem;
+    background-color: #CDBEAF;
+    border-radius: 1rem;
 
-    & ul{
+    & ul {
         list-style: none;
     }
-    & li input{
-            margin-right: 0.5rem;
-            vertical-align: middle;
+
+    & li input {
+        margin-right: 0.5rem;
+        vertical-align: middle;
+    }
+}
+
+.modal[data-state="title"][open],
+.modal[data-state="dueDate"][open],
+.modal[data-state="description"][open],
+.modal[data-state="notes"][open] {
+    & label {
+        font-weight: bold;
+    }
+
+
+
+    & div {
+        display: grid;
+
+        &:nth-child(1) {
+            grid-template-columns: auto auto;
+            padding: 2rem 1rem 3rem 1rem;
+            gap: 1rem;
+
         }
+
+        &:nth-child(2) {
+            grid-template-columns: min-content min-content;
+            gap: 0.5rem;
+            position: absolute;
+            right: 0.5rem;
+            bottom: 0.5rem;
+        }
+    }
+
+
+    & button {
+        padding: 0.4rem 0.6rem;
+        justify-self: end;
+        color: white;
+        border: 1px solid black;
+        border-radius: 0.3rem;
+
+        &:nth-child(1) {
+            background-color: hsl(0, 0%, 50%);
+
+            &:hover {
+                background-color: hsl(0, 0%, 40%);
+            }
+
+            &:active {
+                background-color: hsl(0, 0%, 35%);
+            }
+        }
+
+        &:nth-child(2) {
+            background-color: hsl(192, 100%, 44%);
+
+            &:hover {
+                background-color: hsl(192, 100%, 34%);
+            }
+
+            &:active {
+                background-color: hsl(192, 100%, 29%);
+            }
+        }
+
+    }
+
+}
+
+input:not([type='checkbox']) {
+    border-radius: 4px;
+    padding: 5px 10px;
+    transition: box-shadow 100ms ease-in, border 100ms ease-in, background-color 100ms ease-in;
+    border: 2px solid #dee1e2;
+    color: rgb(14, 14, 16);
+    background: #dee1e2;
+    display: block;
+    height: 30px;
+}
+
+input:not([type='checkbox']):hover {
+    border-color: #ccc;
+}
+
+input:not([type='checkbox']):focus {
+    outline: none;
+    border-color: black;
+    background: #fff;
+
+}
+
+textarea {
+    border-radius: 4px;
+    padding: 5px 10px;
+    transition: box-shadow 100ms ease-in, border 100ms ease-in, background-color 100ms ease-in;
+    border: 2px solid #dee1e2;
+    color: rgb(14, 14, 16);
+    background: #dee1e2;
+    display: block;
+}
+textarea:hover {
+    border-color: #ccc;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: black;
+    background: #fff;
+
 }

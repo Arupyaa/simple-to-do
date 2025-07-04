@@ -101,9 +101,9 @@ let modal = (function () {
                         let projectDOM = document.querySelector(`.sidebar>ul>li[data-id='${_projectID}']`);
                         projectDOM.remove();
                         if (_projects.length == 0)
-                            TodosInterface.projectFocus(undefined,true,true);
+                            TodosInterface.projectFocus(undefined, true, true);
                         else
-                            TodosInterface.projectFocus(_projects[0].id,true);
+                            TodosInterface.projectFocus(_projects[0].id, true);
 
                     }
                     break;
@@ -250,11 +250,14 @@ let modal = (function () {
             clearModal();
         });
 
-        modal.appendChild(TitleLabel);
-        modal.appendChild(Title);
-        modal.appendChild(cancelButton);
-        modal.appendChild(submitButton);
-
+        let bodyDiv = document.createElement("div");
+        let buttonDiv = document.createElement("div");
+        bodyDiv.appendChild(TitleLabel);
+        bodyDiv.appendChild(Title);
+        buttonDiv.appendChild(cancelButton);
+        buttonDiv.appendChild(submitButton);
+        modal.appendChild(bodyDiv);
+        modal.appendChild(buttonDiv);
         modal.dataset.state = "title";
         modal.showModal();
     }
@@ -282,10 +285,14 @@ let modal = (function () {
             clearModal();
         });
 
-        modal.appendChild(descriptionLabel);
-        modal.appendChild(description);
-        modal.appendChild(cancelButton);
-        modal.appendChild(submitButton);
+        let bodyDiv = document.createElement("div");
+        let buttonDiv = document.createElement("div");
+        bodyDiv.appendChild(descriptionLabel);
+        bodyDiv.appendChild(description);
+        buttonDiv.appendChild(cancelButton);
+        buttonDiv.appendChild(submitButton);
+        modal.appendChild(bodyDiv);
+        modal.appendChild(buttonDiv);
 
         modal.dataset.state = "description";
         modal.showModal();
@@ -314,10 +321,14 @@ let modal = (function () {
             clearModal();
         });
 
-        modal.appendChild(notesLabel);
-        modal.appendChild(notes);
-        modal.appendChild(cancelButton);
-        modal.appendChild(submitButton);
+        let bodyDiv = document.createElement("div");
+        let buttonDiv = document.createElement("div");
+        bodyDiv.appendChild(notesLabel);
+        bodyDiv.appendChild(notes);
+        buttonDiv.appendChild(cancelButton);
+        buttonDiv.appendChild(submitButton);
+        modal.appendChild(bodyDiv);
+        modal.appendChild(buttonDiv);
 
         modal.dataset.state = "notes";
         modal.showModal();
@@ -345,10 +356,14 @@ let modal = (function () {
             clearModal();
         });
 
-        modal.appendChild(dueDateLabel);
-        modal.appendChild(dueDate);
-        modal.appendChild(cancelButton);
-        modal.appendChild(submitButton);
+        let bodyDiv = document.createElement("div");
+        let buttonDiv = document.createElement("div");
+        bodyDiv.appendChild(dueDateLabel);
+        bodyDiv.appendChild(dueDate);
+        buttonDiv.appendChild(cancelButton);
+        buttonDiv.appendChild(submitButton);
+        modal.appendChild(bodyDiv);
+        modal.appendChild(buttonDiv);
 
         modal.dataset.state = "dueDate";
         modal.showModal();
