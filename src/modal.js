@@ -436,11 +436,15 @@ let modal = (function () {
             }
         });
 
-        modal.appendChild(checklistDescription);
-        modal.appendChild(checklist);
-        modal.appendChild(cancelButton);
-        modal.appendChild(submitButton);
-        modal.appendChild(addList);
+        let bodyDiv = document.createElement("div");
+        let buttonDiv = document.createElement("div");
+        bodyDiv.appendChild(checklistDescription);
+        bodyDiv.appendChild(checklist);
+        buttonDiv.appendChild(cancelButton);
+        buttonDiv.appendChild(submitButton);
+        buttonDiv.appendChild(addList);
+        modal.appendChild(bodyDiv);
+        modal.appendChild(buttonDiv);
 
         modal.dataset.state = "checklist";
         modal.showModal();
