@@ -295,6 +295,7 @@ let TodosInterface = (function () {
         checklistBox.appendChild(checklist);
 
         let addButtons = document.createElement("div");
+        addButtons.classList.add("card-buttons");
         let addDescriptionBtn = document.createElement("button");
         let addNotesBtn = document.createElement("button");
         let addChecklistBtn = document.createElement("button");

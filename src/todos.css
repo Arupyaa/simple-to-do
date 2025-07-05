@@ -97,3 +97,25 @@
 .description, .notes{
     white-space: pre;
 }
+
+.card-buttons{
+    margin-top: 0.5rem;
+    display: grid;
+    grid-template-rows: repeat(3,min-content);
+    gap: 0.2rem;
+    & button{
+        white-space: nowrap;
+        justify-self: start;
+        padding: 0.4rem 0.6rem;
+        color: white;
+        border: 1px solid black;
+        border-radius: 0.3rem;
+        background-color: hsl(30, 21%, 55%);
+        &:hover{
+            background-color: hsl(30, 21%, 65%);
+        }
+        &:active{
+            background-color: hsl(30, 21%, 70%);
+        }
+    }
+}
