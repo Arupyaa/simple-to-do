@@ -2,7 +2,8 @@ import { TodosHandler } from "./todosHandler";
 import { TodosInterface } from "./interface.js";
 import { add, parse as parseDate } from "date-fns";
 import { Project } from "./projects.js";
-export { modal };
+import { Todos } from './todos.js';
+export { modal,TodoReplacer };
 
 let modal = (function () {
     let _id = "", _checklist = undefined, _title = undefined, _dueDate = undefined, _description = undefined, _notes = undefined;
@@ -111,6 +112,8 @@ let modal = (function () {
         }
         //making sure modal is cleared if closed by pressing ESC
         clearModal();
+        //updating localStorage
+        window.localStorage.setItem("myProjects",JSON.stringify(TodosInterface.getProjects(),TodoReplacer));
     });
 
     function clearModal() {
@@ -549,3 +552,11 @@ let modal = (function () {
 
     return { addTodo, editTitle, editDescription, editNotes, editDueDate, editChecklist, removeCardConfirmation, addProject, removeProjectConfirmation };
 })();
+
+function TodoReplacer(key,value){
+    if( value instanceof Todos)
+    {
+        return value.stringify();
+    }
+    return value;
+}

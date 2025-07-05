@@ -405,11 +405,15 @@ let TodosInterface = (function () {
         }
     }
 
+    let getProjects = function()
+    {
+        return _projects;
+    }
 
     return {
         get projectContainer() {
             return projectContainer;
-        }, interfaceInit, displayCard, displayTodos, removeCard, editTitle, editDescription, editNotes, editDueDate, editChecklist, projectFocus, updateProjects, displayAddCardIcon
+        }, interfaceInit, displayCard, displayTodos, removeCard, editTitle, editDescription, editNotes, editDueDate, editChecklist, projectFocus, updateProjects, displayAddCardIcon, getProjects
     };
 })();
 
