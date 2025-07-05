@@ -11,10 +11,7 @@ import { Todos } from './todos.js';
 /* window.localStorage.clear(); */
 
 let exampleProject = new Project("example project");
-let exampleProject2 = new Project("project crspy");
-let projects = [exampleProject, exampleProject2];
-
-
+let projects = [exampleProject];
 
 TodosHandler.addTodo(projects[0], "do HW", new Date("2025-06-21T00:00"), "do my homework");
 TodosHandler.addTodo(projects[0], "Tidy room", new Date("2025-06-19T12:30"), "tidy your room", "don't procrascinate", [
@@ -24,8 +21,6 @@ TodosHandler.addTodo(projects[0], "Tidy room", new Date("2025-06-19T12:30"), "ti
 ]
 );
 TodosHandler.addTodo(projects[0], "sleep", new Date("2025-06-23T03:10"), "go to bed", "nonsense");
-
-TodosHandler.addTodo(projects[1], "do crspy", new Date("2025-11-18T06:00"));
 
 if(window.localStorage.getItem("myProjects") == null)
 {
