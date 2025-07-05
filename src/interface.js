@@ -183,7 +183,7 @@ let TodosInterface = (function () {
         titleBox.appendChild(titleEdit);
 
         let dueDate = document.createElement("div");
-        dueDate.textContent = dateFormat(todo.dueDate, "MMM d h:mm aa");
+        dueDate.textContent = dateFormat(todo.dueDate, "yyyy MMM d h:mm aa");
         dueDate.classList.add("date");
         let dueDateEdit = makeEditSVG();
         dueDateEdit.appendChild(makePath1());
